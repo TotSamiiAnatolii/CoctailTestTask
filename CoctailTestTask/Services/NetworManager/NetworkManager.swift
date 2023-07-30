@@ -12,19 +12,21 @@ protocol NetworkServiceProtocol: AnyObject {
     func getMenuList(categories: [ModelCategory], comletion: @escaping([String: [ModelCoctailCell]]) -> Void)
     
     func getDetailDrink(id: String, completion: @escaping(ModelDetailDrink) -> Void)
+    
+    func getCategory(completion: @escaping(ModelDetailDrink) -> Void)
 }
 
 final class NetworkManager: NetworkServiceProtocol {
     
     func getDetailDrink(id: String, completion: @escaping (ModelDetailDrink) -> Void) {
-        let urlString = ApiUrl.list.rawValue + id
-        
-        let newUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        guard let url = URL(string: newUrl) else {
-            print("Error")
-            return
-        }
-        fetchModels(from: url, in: completion)
+//        let urlString = ApiUrl.list.rawValue + id
+//
+//        let newUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+//        guard let url = URL(string: newUrl) else {
+//            print("Error")
+//            return
+//        }
+//        fetchModels(from: url, in: completion)
     }
 
     private let groupMenuList = DispatchGroup()
@@ -32,7 +34,7 @@ final class NetworkManager: NetworkServiceProtocol {
     private let groupImage = DispatchGroup()
     
     func getMenuList(categories: [ModelCategory], comletion: @escaping([String: [ModelCoctailCell]]) -> Void) {
-        
+     
         var listMenu: [String: [ModelCoctailCell]] = [:]
         
         categories.forEach { category in
@@ -59,7 +61,7 @@ final class NetworkManager: NetworkServiceProtocol {
             value.drinks.forEach({ drink in
                 groupImage.enter()
               
-                DispatchQueue.global(qos: .userInteractive).async {
+                DispatchQueue.global(qos: .userInitiated).async {
                     let imageData = try? Data(contentsOf: URL(string: drink.strDrinkThumb)!)
                     let image = UIImage(data: imageData ?? Data()) ?? UIImage()
                     
@@ -76,11 +78,14 @@ final class NetworkManager: NetworkServiceProtocol {
     }
     
     func fetchList(for category: String, completion: @escaping (CocktailResponse) -> Void) {
-        let urlString = ApiUrl.list.rawValue + category
-        
-        let newUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        guard let url = URL(string: newUrl) else {
-            print("Error")
+        guard let url = API.fetchCategory(category: category) else {
+            return
+        }
+        fetchModels(from: url, in: completion)
+    }
+    
+    func getCategory(completion: @escaping(ModelDetailDrink) -> Void) {
+        guard let url = API.categories else {
             return
         }
         fetchModels(from: url, in: completion)
@@ -98,27 +103,6 @@ final class NetworkManager: NetworkServiceProtocol {
                 let model = try decoder.decode(T.self, from: data)
                 DispatchQueue.main.async {
                     completion(model)
-                }
-            }
-            catch {
-                print("decode error")
-            }
-        }.resume()
-    }
-    
-    private func fetchModels2<T: Decodable>(from url: URL, in completion: @escaping ((Result<T, Error>) -> Void)) {
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data = data else {
-                print(error?.localizedDescription ?? "No description")
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let model = try decoder.decode(T.self, from: data)
-                
-                DispatchQueue.main.async {
-                    completion(.success(model))
                 }
             }
             catch {
