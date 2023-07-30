@@ -12,7 +12,7 @@ struct CocktailResponse: Codable {
 }
 
 struct Drink: Codable {
-    public let strDrink: String
-    public let strDrinkThumb: String
-    public let idDrink: String
+     let strDrink: String
+     let strDrinkThumb: String
+     let idDrink: String
 }

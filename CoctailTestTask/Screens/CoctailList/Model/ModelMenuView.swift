@@ -11,3 +11,9 @@ struct ModelMenuView {
     
     let nameCity: String = "Москва"
 }
+
+enum CoctailListViewState {
+    case loading
+    case papulated([String: [ModelCoctailCell]])
+    case error(Error)
+}

@@ -7,10 +7,27 @@
 
 import UIKit
 
-protocol CoctailListViewProtocol {
+protocol CoctailListViewProtocol: AnyObject {
+    
     var menuView: CoctailListView { get }
-    var stateScroll: StateScroll { get set}
-    func succes()
+    
+    var stateScroll: StateScroll { get set }
+    
+    func succes(models: [String: [ModelCoctailCell]])
+    
+    func failure(error: Error)
+    
+    func visibleCurrentSection(xOffset: CGFloat, yOffset: CGFloat, indent: CGFloat) -> Int?
+    
+    func visibleSupplementaryViews() -> [UICollectionReusableView]
+    
+    func setContentOffset(_ position: CGFloat, indexPath: IndexPath)
+    
+    func setHeader(current state: StateHeader, header: CategoryHeader)
+    
+    func setIndicatorDownload(state: StateDowload)
+    
+    func setColorNavBar(current state: StateHeader)
 }
 
 protocol ScrollControlDelegate: AnyObject {
@@ -30,6 +47,8 @@ final class CoctailListController: UIViewController {
     
     private var minYCategoryHeader: CGFloat = 0
     
+    private let countItemInTopBarSection = 1
+    
     private let heightHeader: CGFloat = 70
     
     private var stateHeader: StateHeader = .floats
@@ -45,6 +64,8 @@ final class CoctailListController: UIViewController {
     private let heightTopBanner: CGFloat = 140
     
     private let heightCoctailCell: CGFloat = 170
+    
+    private var listMenu: [String: [ModelCoctailCell]] = [:]
     
     init(presenter: MenuPresenter) {
         self.presenter = presenter
@@ -62,15 +83,11 @@ final class CoctailListController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter.viewDidLoad()
         setupNavigationBar()
         configureView()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        presenter.setIndicatorDownload(state: .loading)
-    }
-    
+ 
     private func setupCollectionView() {
         menuView.collectionView.delegate = self
         menuView.collectionView.dataSource = self
@@ -87,12 +104,10 @@ final class CoctailListController: UIViewController {
 extension CoctailListController: ScrollControlDelegate {
     
     func selectCategory(index category: Int) {
-        print("до нажатия \(stateScroll)")
         stateScroll = .programScroll
-        print("после нажатия \(stateScroll)")
         lastCategory = .zero
         let indexPatch = IndexPath(row: .zero, section: category)
-        presenter.setContentOffset(heightHeader, indexPath: indexPatch)
+        setContentOffset(heightHeader, indexPath: indexPatch)
     }
 }
 extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -104,15 +119,15 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
         
         switch sectionType {
         case .topBanner:
-            return 1
+            return countItemInTopBarSection
         case .coffeeTea:
-            return presenter.listMenu[sectionType.name]?.count ?? 0
+            return listMenu[sectionType.name]?.count ?? 0
         case .shot:
-            return presenter.listMenu[sectionType.name]?.count ?? 0
+            return listMenu[sectionType.name]?.count ?? 0
         case .beer:
-            return presenter.listMenu[sectionType.name]?.count ?? 0
+            return listMenu[sectionType.name]?.count ?? 0
         case .shake:
-            return presenter.listMenu[sectionType.name]?.count ?? 0
+            return listMenu[sectionType.name]?.count ?? 0
         }
     }
     
@@ -143,8 +158,8 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
                 return UICollectionViewCell()
             }
             
-            if presenter.listMenu.count > 0 {
-                menuCell.configure(with: (presenter.listMenu[category.name]?[indexPath.row])!)
+            if listMenu.count > 0 {
+                menuCell.configure(with: (listMenu[category.name]?[indexPath.row])!)
             }
             return menuCell
             
@@ -155,8 +170,8 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
             guard let category = TypeSection.init(rawValue: indexPath.section) else {
                 return UICollectionViewCell()
             }
-            if presenter.listMenu.count > 0 {
-                menuCell.configure(with: (presenter.listMenu[category.name]?[indexPath.row])!)
+            if listMenu.count > 0 {
+                menuCell.configure(with: (listMenu[category.name]?[indexPath.row])!)
             }
             return menuCell
         }
@@ -207,7 +222,7 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
         let offSet = scrollView.contentOffset
         let extraIndent: CGFloat = 3
         var heightHeader: CGFloat = 0
-        let visibleHeadersInSection = presenter.visibleSupplementaryViews()
+        let visibleHeadersInSection = visibleSupplementaryViews()
         
         visibleHeadersInSection.forEach { header in
             guard let categoryHeader = header as? CategoryHeader else {
@@ -216,11 +231,11 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
             heightHeader = header.frame.height
             
             stateHeader = offSet.y > minYCategoryHeader - extraIndent ? .stiky : .floats
-            presenter.setHeader(current: stateHeader, header: categoryHeader)
-            presenter.setColorNavBar(current: stateHeader)
+            setHeader(current: stateHeader, header: categoryHeader)
+            setColorNavBar(current: stateHeader)
         }
         
-        guard let currentCategory = presenter.visibleCurrentSection(yOffset: offSet.y, indent: heightHeader) else {
+        guard let currentCategory = visibleCurrentSection(yOffset: offSet.y, indent: heightHeader) else {
             return
         }
         
@@ -230,17 +245,71 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
             lastCategory = currentCategory
         }
     }
- 
+    
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         presenter.updateStateDragging(state: .userInteracts)
     }
 }
 extension CoctailListController: CoctailListViewProtocol {
+   
+    func setIndicatorDownload(state: StateDowload) {
+        switch state {
+        case .loading:
+            menuView.indicatorDownloads.isHidden = false
+            menuView.indicatorDownloads.startAnimating()
+        case .downloadFinished:
+            menuView.indicatorDownloads.isHidden = true
+            menuView.indicatorDownloads.stopAnimating()
+        }
+    }
     
-    func succes() {
+    func failure(error: Error) {
+        print(error)
+    }
+    
+    
+    func succes(models: [String: [ModelCoctailCell]]) {
+        listMenu = models
         setupCollectionView()
         menuView.collectionView.reloadData()
-        presenter.setIndicatorDownload(state: .downloadFinished)
+    }
+    
+    func setContentOffset(_ position: CGFloat, indexPath: IndexPath) {
+        if let cellAttributes = menuView.collectionView?.layoutAttributesForItem(at: indexPath), indexPath.section > 0 {
+            let scrollingPosition = CGPoint(x: .zero, y: cellAttributes.frame.origin.y - position)
+            menuView.collectionView?.setContentOffset(scrollingPosition, animated: true)
+        } else {
+            let scrollingPosition = CGPoint(x: 0, y: 0)
+            menuView.collectionView?.setContentOffset(scrollingPosition, animated: true)
+        }
+    }
+    
+    func setHeader(current state: StateHeader, header: CategoryHeader) {
+        switch state {
+        case .floats:
+            header.setShadowIsHidden(isHidden: true)
+            menuView.navBarView.backgroundColor = Colors.mainBackGroundColor
+        case .stiky:
+            header.setShadowIsHidden(isHidden: false)
+            menuView.navBarView.backgroundColor = Colors.white
+        }
+    }
+    
+    func visibleCurrentSection(xOffset: CGFloat = 0, yOffset: CGFloat, indent: CGFloat) -> Int? {
+        return menuView.collectionView.indexPathForItem(at: CGPoint(x: xOffset, y: yOffset + indent))?.section
+    }
+    
+    func visibleSupplementaryViews() -> [UICollectionReusableView] {
+        return menuView.collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionHeader)
+    }
+    
+    func setColorNavBar(current state: StateHeader) {
+        switch state {
+        case .floats:
+            menuView.navBarView.backgroundColor = Colors.mainBackGroundColor
+        case .stiky:
+            menuView.navBarView.backgroundColor = Colors.white
+        }
     }
 }
 

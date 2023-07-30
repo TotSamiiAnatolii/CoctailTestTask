@@ -32,7 +32,6 @@ final class CategoryHeader: UICollectionReusableView {
     }
     
     private func createCompositionalLayout() -> UICollectionViewLayout  {
-        
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) in
             return Layouts.shared.setCategoryLayoutPanel()
         }
@@ -44,7 +43,7 @@ final class CategoryHeader: UICollectionReusableView {
         setupView()
         setupCollectionView()
         setViewHierarhies()
-        setupConstraints()
+        setConstraints()
         setStartSelectItem()
         addBottomShadow()
     }
@@ -66,7 +65,7 @@ final class CategoryHeader: UICollectionReusableView {
         addSubview(collectionView)
     }
     
-    private func setupConstraints(){
+    private func setConstraints(){
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: self.topAnchor),

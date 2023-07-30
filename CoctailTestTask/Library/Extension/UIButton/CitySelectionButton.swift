@@ -88,11 +88,10 @@ final class CitySelectionButton: UIButton {
     }
 }
 extension CitySelectionButton: ConfigurableView {
-    func configure(with model: String) {
-        self.nameCity.text = model
-    }
     
     typealias Model = String
     
-    
+    func configure(with model: String) {
+        self.nameCity.text = model
+    }
 }
