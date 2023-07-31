@@ -13,6 +13,7 @@ protocol Mapper {
     associatedtype OutputType
     
     func map(model: InputType) -> OutputType
+    
 }
 extension Mapper {
     
@@ -22,12 +23,8 @@ extension Mapper {
 }
 
 final class CoctailMapper: Mapper {
-
-    func map(model: Drink) -> ModelCoctailCell {
-        ModelCoctailCell(productImage: UIImage(), nameProduct: "OOP")
-    }
     
-    func categoriesMap(model: DrinkCategories) -> ModelCategory {
+    func map(model: DrinkCategories) -> ModelCategory {
         ModelCategory(name: model.strCategory, isSelected: false)
     }
 }

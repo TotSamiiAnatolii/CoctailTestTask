@@ -15,6 +15,8 @@ protocol CoctailListViewProtocol: AnyObject {
     
     func succes(models: [String: [ModelCoctailCell]])
     
+    func categories(models: [ModelCategory])
+    
     func failure(error: Error)
     
     func visibleCurrentSection(xOffset: CGFloat, yOffset: CGFloat, indent: CGFloat) -> Int?
@@ -28,10 +30,6 @@ protocol CoctailListViewProtocol: AnyObject {
     func setIndicatorDownload(state: StateDowload)
     
     func setColorNavBar(current state: StateHeader)
-}
-
-protocol ScrollControlDelegate: AnyObject {
-    func selectCategory(index category: Int)
 }
 
 final class CoctailListController: UIViewController {
@@ -66,6 +64,8 @@ final class CoctailListController: UIViewController {
     private let heightCoctailCell: CGFloat = 170
     
     private var listMenu: [String: [ModelCoctailCell]] = [:]
+    
+    private var categories: [ModelCategory] = []
     
     init(presenter: MenuPresenter) {
         self.presenter = presenter
@@ -113,21 +113,27 @@ extension CoctailListController: ScrollControlDelegate {
 extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let sectionType = TypeSection.init(rawValue: section) else {
-            return 0
-        }
+//        guard let sectionType = TypeSection.init(rawValue: section) else {
+//            return 0
+//        }
+//
+//        switch sectionType {
+//        case .topBanner:
+//            return countItemInTopBarSection
+//        case .coffeeTea:
+//            return listMenu[sectionType.name]?.count ?? 0
+//        case .shot:
+//            return listMenu[sectionType.name]?.count ?? 0
+//        case .beer:
+//            return listMenu[sectionType.name]?.count ?? 0
+//        case .shake:
+//            return listMenu[sectionType.name]?.count ?? 0
+//        }
         
-        switch sectionType {
-        case .topBanner:
+        if section == 0 {
             return countItemInTopBarSection
-        case .coffeeTea:
-            return listMenu[sectionType.name]?.count ?? 0
-        case .shot:
-            return listMenu[sectionType.name]?.count ?? 0
-        case .beer:
-            return listMenu[sectionType.name]?.count ?? 0
-        case .shake:
-            return listMenu[sectionType.name]?.count ?? 0
+        } else {
+            return listMenu[categories[section].name]?.count ?? 0
         }
     }
     
@@ -137,33 +143,17 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let sectionType = TypeSection.init(rawValue: indexPath.section) else {
-            return UICollectionViewCell()
-        }
+//        guard let sectionType = TypeSection.init(rawValue: indexPath.section) else {
+//            return UICollectionViewCell()
+//        }
+//
         
-        switch sectionType {
-            
-        case .topBanner:
+        if indexPath.section == 0 {
             guard let topBannerCell = collectionView.dequeueReusableCell(withReuseIdentifier: TopBannerCell.identifire, for: indexPath) as? TopBannerCell else {
                 return UICollectionViewCell()
             }
             return topBannerCell
-            
-        case .coffeeTea:
-            guard let menuCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoctailCell.identifire, for: indexPath) as? CoctailCell else {
-                return UICollectionViewCell()
-            }
-            
-            guard let category = TypeSection.init(rawValue: indexPath.section) else {
-                return UICollectionViewCell()
-            }
-            
-            if listMenu.count > 0 {
-                menuCell.configure(with: (listMenu[category.name]?[indexPath.row])!)
-            }
-            return menuCell
-            
-        default:
+        } else {
             guard let menuCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoctailCell.identifire, for: indexPath) as? CoctailCell else {
                 return UICollectionViewCell()
             }
@@ -175,6 +165,41 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
             }
             return menuCell
         }
+        
+//        switch sectionType {
+//            
+//        case .topBanner:
+//            guard let topBannerCell = collectionView.dequeueReusableCell(withReuseIdentifier: TopBannerCell.identifire, for: indexPath) as? TopBannerCell else {
+//                return UICollectionViewCell()
+//            }
+//            return topBannerCell
+//            
+//        case .coffeeTea:
+//            guard let menuCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoctailCell.identifire, for: indexPath) as? CoctailCell else {
+//                return UICollectionViewCell()
+//            }
+//            
+//            guard let category = TypeSection.init(rawValue: indexPath.section) else {
+//                return UICollectionViewCell()
+//            }
+//            
+//            if listMenu.count > 0 {
+//                menuCell.configure(with: (listMenu[category.name]?[indexPath.row])!)
+//            }
+//            return menuCell
+//            
+//        default:
+//            guard let menuCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoctailCell.identifire, for: indexPath) as? CoctailCell else {
+//                return UICollectionViewCell()
+//            }
+//            guard let category = TypeSection.init(rawValue: indexPath.section) else {
+//                return UICollectionViewCell()
+//            }
+//            if listMenu.count > 0 {
+//                menuCell.configure(with: (listMenu[category.name]?[indexPath.row])!)
+//            }
+//            return menuCell
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -190,6 +215,7 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
             }
             minYCategoryHeader = header.frame.origin.y
             header.delegate = self
+            header.dataSource = self
             self.delegate = header
             return header
             
@@ -251,6 +277,11 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
     }
 }
 extension CoctailListController: CoctailListViewProtocol {
+    func categories(models: [ModelCategory]) {
+        categories = models
+        print(categories.count)
+    }
+    
    
     func setIndicatorDownload(state: StateDowload) {
         switch state {
@@ -266,10 +297,10 @@ extension CoctailListController: CoctailListViewProtocol {
     func failure(error: Error) {
         print(error)
     }
-    
-    
+
     func succes(models: [String: [ModelCoctailCell]]) {
         listMenu = models
+        print(models.count)
         setupCollectionView()
         menuView.collectionView.reloadData()
     }
@@ -312,5 +343,13 @@ extension CoctailListController: CoctailListViewProtocol {
         }
     }
 }
-
+extension CoctailListController: DataSourceHeader {
+    func getCategory(_ indexPath: IndexPath) -> ModelCategory {
+        categories[indexPath.row]
+    }
+    
+    func numberOfItems(_ header: CategoryHeader) -> Int {
+        categories.count
+    }
+}
 

@@ -14,6 +14,7 @@ struct ModelMenuView {
 
 enum CoctailListViewState {
     case loading
+    case loadCategory([ModelCategory])
     case papulated([String: [ModelCoctailCell]])
     case error(Error)
 }

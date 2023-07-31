@@ -7,6 +7,18 @@
 
 import UIKit
 
+protocol DataSourceHeader: AnyObject {
+    
+    func numberOfItems(_ header: CategoryHeader) -> Int
+    
+    func getCategory(_ indexPath: IndexPath) -> ModelCategory
+}
+
+protocol ScrollControlDelegate: AnyObject {
+    
+    func selectCategory(index category: Int)
+}
+
 final class CategoryHeader: UICollectionReusableView {
     
     static let identifire = "CategoryHeader"
@@ -15,7 +27,13 @@ final class CategoryHeader: UICollectionReusableView {
     
     weak var delegate: ScrollControlDelegate?
     
-    private var categories: [String] = [Category.coffeeTea.name, Category.shot.name, Category.beer.name, Category.shake.name]
+    weak var dataSource: DataSourceHeader? {
+        didSet {
+            collectionView.delegate = self
+            collectionView.dataSource = self
+            setStartSelectItem()
+        }
+    }
     
     private var collectionView: UICollectionView!
     
@@ -27,8 +45,6 @@ final class CategoryHeader: UICollectionReusableView {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = Colors.mainBackGroundColor
         collectionView.register(SelectCategoryCell.self, forCellWithReuseIdentifier: SelectCategoryCell.identifire)
-        collectionView.delegate = self
-        collectionView.dataSource = self
     }
     
     private func createCompositionalLayout() -> UICollectionViewLayout  {
@@ -44,10 +60,9 @@ final class CategoryHeader: UICollectionReusableView {
         setupCollectionView()
         setViewHierarhies()
         setConstraints()
-        setStartSelectItem()
         addBottomShadow()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -89,7 +104,7 @@ final class CategoryHeader: UICollectionReusableView {
         
     }
     
-    func setShadowIsHidden(isHidden: Bool) {
+   public func setShadowIsHidden(isHidden: Bool) {
         shadowLayer.isHidden = isHidden
         collectionView.backgroundColor = isHidden ? Colors.mainBackGroundColor : .white
     }
@@ -97,14 +112,19 @@ final class CategoryHeader: UICollectionReusableView {
 extension CategoryHeader: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        categories.count
+        return dataSource?.numberOfItems(self) ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectCategoryCell.identifire, for: indexPath) as? SelectCategoryCell else {
             return UICollectionViewCell()
         }
-        cell.configure(with: ModelSelectCatgoryCell(nameCategory: categories[indexPath.row]))
+        
+        guard let nameCategory = dataSource?.getCategory(indexPath).name else {
+            return UICollectionViewCell()
+        }
+        
+        cell.configure(with: ModelSelectCatgoryCell(nameCategory: nameCategory))
         return cell
     }
     
