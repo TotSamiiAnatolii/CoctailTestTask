@@ -35,10 +35,10 @@ enum Category: Int, CaseIterable {
 
 enum TypeSection: Int, CaseIterable {
     case topBanner
-    case coffeeTea
-    case shot
-    case beer
-    case shake
+    case menuList
+//    case shot
+//    case beer
+//    case shake
     
     var typeCell: TypeCell {
         switch self {
@@ -49,20 +49,20 @@ enum TypeSection: Int, CaseIterable {
         }
     }
 
-    var name: String {
-        switch self {
-        case .coffeeTea:
-            return "Coffee / Tea"
-        case .shot:
-            return "Shot"
-        case .beer:
-            return "Beer"
-        case .shake:
-            return "Shake"
-        default:
-            return""
-        }
-    }
+//    var name: String {
+//        switch self {
+//        case .coffeeTea:
+//            return "Coffee / Tea"
+//        case .shot:
+//            return "Shot"
+//        case .beer:
+//            return "Beer"
+//        case .shake:
+//            return "Shake"
+//        default:
+//            return""
+//        }
+//    }
 }
 
 enum StateScroll {

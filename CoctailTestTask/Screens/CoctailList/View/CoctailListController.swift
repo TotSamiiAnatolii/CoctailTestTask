@@ -116,90 +116,44 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
 //        guard let sectionType = TypeSection.init(rawValue: section) else {
 //            return 0
 //        }
-//
-//        switch sectionType {
-//        case .topBanner:
-//            return countItemInTopBarSection
-//        case .coffeeTea:
-//            return listMenu[sectionType.name]?.count ?? 0
-//        case .shot:
-//            return listMenu[sectionType.name]?.count ?? 0
-//        case .beer:
-//            return listMenu[sectionType.name]?.count ?? 0
-//        case .shake:
-//            return listMenu[sectionType.name]?.count ?? 0
-//        }
-        
+
         if section == 0 {
             return countItemInTopBarSection
         } else {
-            return listMenu[categories[section].name]?.count ?? 0
+            print(listMenu[categories[section - 1].name]?.count)
+            return listMenu[categories[section - 1].name]?.count ?? 0
         }
+        
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return TypeSection.allCases.count
+//        print(listMenu["Shake"]?.count)
+        return listMenu.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-//        guard let sectionType = TypeSection.init(rawValue: indexPath.section) else {
-//            return UICollectionViewCell()
-//        }
-//
-        
+
         if indexPath.section == 0 {
             guard let topBannerCell = collectionView.dequeueReusableCell(withReuseIdentifier: TopBannerCell.identifire, for: indexPath) as? TopBannerCell else {
                 return UICollectionViewCell()
             }
             return topBannerCell
-        } else {
+        }
             guard let menuCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoctailCell.identifire, for: indexPath) as? CoctailCell else {
                 return UICollectionViewCell()
             }
-            guard let category = TypeSection.init(rawValue: indexPath.section) else {
-                return UICollectionViewCell()
-            }
-            if listMenu.count > 0 {
-                menuCell.configure(with: (listMenu[category.name]?[indexPath.row])!)
-            }
-            return menuCell
-        }
-        
-//        switch sectionType {
-//            
-//        case .topBanner:
-//            guard let topBannerCell = collectionView.dequeueReusableCell(withReuseIdentifier: TopBannerCell.identifire, for: indexPath) as? TopBannerCell else {
-//                return UICollectionViewCell()
-//            }
-//            return topBannerCell
-//            
-//        case .coffeeTea:
-//            guard let menuCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoctailCell.identifire, for: indexPath) as? CoctailCell else {
-//                return UICollectionViewCell()
-//            }
-//            
-//            guard let category = TypeSection.init(rawValue: indexPath.section) else {
-//                return UICollectionViewCell()
-//            }
-//            
-//            if listMenu.count > 0 {
-//                menuCell.configure(with: (listMenu[category.name]?[indexPath.row])!)
-//            }
-//            return menuCell
-//            
-//        default:
-//            guard let menuCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoctailCell.identifire, for: indexPath) as? CoctailCell else {
-//                return UICollectionViewCell()
-//            }
-//            guard let category = TypeSection.init(rawValue: indexPath.section) else {
-//                return UICollectionViewCell()
-//            }
-//            if listMenu.count > 0 {
-//                menuCell.configure(with: (listMenu[category.name]?[indexPath.row])!)
-//            }
-//            return menuCell
+        print(categories[indexPath.section - 1].name)
+        print(indexPath.row)
+//        if categories[indexPath.section - 1].name == "Shake" {
+//
 //        }
+        
+        if let product = listMenu[categories[indexPath.section - 1].name]?[indexPath.row] {
+            menuCell.configure(with: product)
+        }
+               
+//            }
+            return menuCell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -209,7 +163,7 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
         }
         switch typeSection {
             
-        case .coffeeTea:
+        case .menuList:
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CategoryHeader.identifire, for: indexPath) as? CategoryHeader else {
                 return UICollectionReusableView()
             }
