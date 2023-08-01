@@ -127,33 +127,25 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-//        print(listMenu["Shake"]?.count)
         return listMenu.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+        
         if indexPath.section == 0 {
             guard let topBannerCell = collectionView.dequeueReusableCell(withReuseIdentifier: TopBannerCell.identifire, for: indexPath) as? TopBannerCell else {
                 return UICollectionViewCell()
             }
             return topBannerCell
         }
-            guard let menuCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoctailCell.identifire, for: indexPath) as? CoctailCell else {
-                return UICollectionViewCell()
-            }
-        print(categories[indexPath.section - 1].name)
-        print(indexPath.row)
-//        if categories[indexPath.section - 1].name == "Shake" {
-//
-//        }
+        guard let menuCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoctailCell.identifire, for: indexPath) as? CoctailCell else {
+            return UICollectionViewCell()
+        }
         
         if let product = listMenu[categories[indexPath.section - 1].name]?[indexPath.row] {
             menuCell.configure(with: product)
         }
-               
-//            }
-            return menuCell
+        return menuCell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
