@@ -7,38 +7,10 @@
 
 import UIKit
 
-enum Category: Int, CaseIterable {
-    case cocktail
-    case coffeeTea
-    case shot
-    case beer
-    case coffee
-    case shake
-    
-    var name: String {
-        switch self {
-        case .cocktail:
-            return "Cocktail"
-        case .coffeeTea:
-            return "Coffee / Tea"
-        case .shot:
-            return "Shot"
-        case .beer:
-            return "Beer"
-        case .coffee:
-            return "Кофе"
-        case .shake:
-            return "Shake"
-        }
-    }
-}
-
 enum TypeSection: Int, CaseIterable {
+    
     case topBanner
     case menuList
-//    case shot
-//    case beer
-//    case shake
     
     var typeCell: TypeCell {
         switch self {
@@ -48,21 +20,6 @@ enum TypeSection: Int, CaseIterable {
             return .menuCell
         }
     }
-
-//    var name: String {
-//        switch self {
-//        case .coffeeTea:
-//            return "Coffee / Tea"
-//        case .shot:
-//            return "Shot"
-//        case .beer:
-//            return "Beer"
-//        case .shake:
-//            return "Shake"
-//        default:
-//            return""
-//        }
-//    }
 }
 
 enum StateScroll {

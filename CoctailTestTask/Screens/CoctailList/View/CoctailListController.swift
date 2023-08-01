@@ -120,14 +120,12 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
         if section == 0 {
             return countItemInTopBarSection
         } else {
-            print(listMenu[categories[section - 1].name]?.count)
             return listMenu[categories[section - 1].name]?.count ?? 0
         }
-        
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return listMenu.count
+        return listMenu.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -246,7 +244,6 @@ extension CoctailListController: CoctailListViewProtocol {
 
     func succes(models: [String: [ModelCoctailCell]]) {
         listMenu = models
-        print(models.count)
         setupCollectionView()
         menuView.collectionView.reloadData()
     }
