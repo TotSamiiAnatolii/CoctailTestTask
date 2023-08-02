@@ -11,11 +11,9 @@ protocol CoctailListPresenterProtocol: AnyObject {
     
     init(networkService: NetworkServiceProtocol)
     
-    var categories: [ModelCategory] { get set }
-
     func viewDidLoad()
     
-    func getCategories(completion: @escaping ()->Void)
+    func getCategories(completion: @escaping ([ModelCategory])->Void)
     
     func getMenuList(categories: [ModelCategory])
     
@@ -41,18 +39,13 @@ final class MenuPresenter: CoctailListPresenterProtocol {
     init(networkService: NetworkServiceProtocol) {
         self.networkService = networkService
     }
-    
-    var categories: [ModelCategory] = []
-    
-    func getCategories(completion: @escaping ()->Void) {
+
+    func getCategories(completion: @escaping ([ModelCategory])->Void) {
         networkService.getCategory { category in
             switch category {
             case .success(let success):
-               
-                self.categories = self.mapper.map(models: success.drinks)
-                
                 self.stateView = .loadCategory(self.mapper.map(models: success.drinks))
-                completion()
+                completion(self.mapper.map(models: success.drinks))
             case .failure(let failure):
                 print(failure)
             }
@@ -76,8 +69,8 @@ final class MenuPresenter: CoctailListPresenterProtocol {
     
     func viewDidLoad() {
         stateView = .loading
-        getCategories {
-            self.getMenuList(categories: self.categories)
+        getCategories { categories in
+            self.getMenuList(categories: categories)
         }
     }
     
