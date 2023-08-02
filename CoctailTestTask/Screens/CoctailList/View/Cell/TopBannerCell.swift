@@ -41,8 +41,8 @@ final class TopBannerCell: UICollectionViewCell {
         backgroundColor = .white
         
         setupCollectionView()
-        self.topBannerCollectionView.delegate = self
-        self.topBannerCollectionView.dataSource = self
+        topBannerCollectionView.delegate = self
+        topBannerCollectionView.dataSource = self
         setViewHierarhies()
         setupConstraints()
     }

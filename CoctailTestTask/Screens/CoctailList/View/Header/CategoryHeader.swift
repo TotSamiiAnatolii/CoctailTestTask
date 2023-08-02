@@ -29,8 +29,7 @@ final class CategoryHeader: UICollectionReusableView {
     
     weak var dataSource: DataSourceHeader? {
         didSet {
-            collectionView.delegate = self
-            collectionView.dataSource = self
+            setDeleagateCollectionView()
             setStartSelectItem()
         }
     }
@@ -71,6 +70,11 @@ final class CategoryHeader: UICollectionReusableView {
         shadowLayer.isHidden = true
     }
     
+    private func setDeleagateCollectionView() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+    }
+    
     private func setStartSelectItem() {
         collectionView.selectItem(at: IndexPath(row: .zero, section: .zero), animated: true, scrollPosition: .centeredHorizontally)
     }
@@ -80,7 +84,7 @@ final class CategoryHeader: UICollectionReusableView {
         addSubview(collectionView)
     }
     
-    private func setConstraints(){
+    private func setConstraints() {
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -104,7 +108,11 @@ final class CategoryHeader: UICollectionReusableView {
         
     }
     
-   public func setShadowIsHidden(isHidden: Bool) {
+    private func setCurrentCategory(_ indexPath: IndexPath) -> Int {
+        indexPath.row == 0 ? indexPath.row : indexPath.row + 1
+    }
+    
+    public func setShadowIsHidden(isHidden: Bool) {
         shadowLayer.isHidden = isHidden
         collectionView.backgroundColor = isHidden ? Colors.mainBackGroundColor : .white
     }
@@ -129,8 +137,7 @@ extension CategoryHeader: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectCategory = indexPath.row == 0 ? indexPath.row : indexPath.row + 1
-        delegate?.selectCategory(index: selectCategory)
+        delegate?.selectCategory(index: setCurrentCategory(indexPath))
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
 }

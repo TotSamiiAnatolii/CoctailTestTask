@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		187D84B42A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D84B32A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift */; };
 		188BB5A52A4703E1004810DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BB5A42A4703E1004810DF /* AppDelegate.swift */; };
 		188BB5A72A4703E1004810DF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BB5A62A4703E1004810DF /* SceneDelegate.swift */; };
 		188BB5A92A4703E1004810DF /* CoctailListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BB5A82A4703E1004810DF /* CoctailListController.swift */; };
@@ -86,6 +87,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		187D84B32A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+.swift"; sourceTree = "<group>"; };
 		188BB5A12A4703E1004810DF /* CoctailTestTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoctailTestTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		188BB5A42A4703E1004810DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		188BB5A62A4703E1004810DF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -174,6 +176,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		187D84B22A7AD2810012AA64 /* UIActivityIndicatorView */ = {
+			isa = PBXGroup;
+			children = (
+				187D84B32A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift */,
+			);
+			path = UIActivityIndicatorView;
+			sourceTree = "<group>";
+		};
 		188BB5982A4703E1004810DF = {
 			isa = PBXGroup;
 			children = (
@@ -434,6 +444,7 @@
 		188BB5EE2A470968004810DF /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				187D84B22A7AD2810012AA64 /* UIActivityIndicatorView */,
 				188BB5F22A470995004810DF /* UIButton */,
 				188BB5F12A47098C004810DF /* UIView */,
 				188BB5F02A47097F004810DF /* UIStackView */,
@@ -801,6 +812,7 @@
 				188BB6022A470A9C004810DF /* Colors.swift in Sources */,
 				188BB5A92A4703E1004810DF /* CoctailListController.swift in Sources */,
 				188BB6132A47320E004810DF /* ApiURL.swift in Sources */,
+				187D84B42A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift in Sources */,
 				188BB5F82A4709FE004810DF /* UIView+MyStyle.swift in Sources */,
 				188BB62D2A4736F1004810DF /* ModelSelectCategoryCell.swift in Sources */,
 				188BB5A52A4703E1004810DF /* AppDelegate.swift in Sources */,

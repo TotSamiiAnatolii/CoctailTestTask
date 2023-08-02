@@ -20,6 +20,15 @@ enum TypeSection: Int, CaseIterable {
             return .menuCell
         }
     }
+    
+    func currentSection(_ section: Int) -> Int {
+        switch self {
+        case .topBanner:
+            return section
+        case .menuList:
+            return section - 1
+        }
+    }
 }
 
 enum StateScroll {
@@ -31,11 +40,6 @@ enum TypeCell: Int {
     case topBannerCell
     case menuCell
     case category
-}
-
-enum State {
-    case load
-    case error(Error)
 }
 
 enum StateDowload {

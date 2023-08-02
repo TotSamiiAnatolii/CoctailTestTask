@@ -34,6 +34,7 @@ protocol CoctailListViewProtocol: AnyObject {
 
 final class CoctailListController: UIViewController {
     
+    //MARK: - Main view
     var menuView: CoctailListView {
         guard let view = self.view as? CoctailListView else {
             return CoctailListView()
@@ -43,11 +44,20 @@ final class CoctailListController: UIViewController {
     
     private var presenter: MenuPresenter
     
-    private var minYCategoryHeader: CGFloat = 0
+    //MARK: - Delegate
+    weak var delegate: ScrollControlDelegate?
     
+    //MARK: - Constants
     private let countItemInTopBarSection = 1
     
     private let heightHeader: CGFloat = 70
+    
+    private let heightTopBanner: CGFloat = 140
+    
+    private let heightCoctailCell: CGFloat = 170
+    
+    //MARK: - Variables
+    private var minYCategoryHeader: CGFloat = 0
     
     private var stateHeader: StateHeader = .floats
     
@@ -55,18 +65,19 @@ final class CoctailListController: UIViewController {
     
     internal var stateScroll: StateScroll  = .userInteracts
     
-    weak var delegate: ScrollControlDelegate?
+    private var totalNumberOfSections: Int {
+        listMenu.count + 1
+    }
     
+    //MARK: -
     private var refreshControl = UIRefreshControl()
     
-    private let heightTopBanner: CGFloat = 140
-    
-    private let heightCoctailCell: CGFloat = 170
-    
+    //MARK: - Data source
     private var listMenu: [String: [ModelCoctailCell]] = [:]
     
     private var categories: [ModelCategory] = []
     
+    //MARK: - Init
     init(presenter: MenuPresenter) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -76,6 +87,7 @@ final class CoctailListController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Life cicle VC
     override func loadView() {
         super.loadView()
         self.view = CoctailListView(frame: UIScreen.main.bounds)
@@ -101,49 +113,44 @@ final class CoctailListController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
 }
-extension CoctailListController: ScrollControlDelegate {
-    
-    func selectCategory(index category: Int) {
-        stateScroll = .programScroll
-        lastCategory = .zero
-        let indexPatch = IndexPath(row: .zero, section: category)
-        setContentOffset(heightHeader, indexPath: indexPatch)
-    }
-}
 extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        guard let sectionType = TypeSection.init(rawValue: section) else {
-//            return 0
-//        }
-
-        if section == 0 {
+    
+        let typeSection = TypeSection(rawValue: section) ?? .menuList
+                
+        switch typeSection {
+        case .topBanner:
             return countItemInTopBarSection
-        } else {
-            return listMenu[categories[section - 1].name]?.count ?? 0
+        case .menuList:
+            return listMenu[categories[typeSection.currentSection(section)].name]?.count ?? 0
         }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return listMenu.count + 1
+        totalNumberOfSections
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    
+        let typeSection = TypeSection(rawValue: indexPath.section) ?? .menuList
         
-        if indexPath.section == 0 {
+        switch typeSection {
+        case .topBanner:
             guard let topBannerCell = collectionView.dequeueReusableCell(withReuseIdentifier: TopBannerCell.identifire, for: indexPath) as? TopBannerCell else {
                 return UICollectionViewCell()
             }
             return topBannerCell
+        case .menuList:
+            guard let menuCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoctailCell.identifire, for: indexPath) as? CoctailCell else {
+                return UICollectionViewCell()
+            }
+            
+            if let product = listMenu[categories[typeSection.currentSection(indexPath.section)].name]?[indexPath.row] {
+                menuCell.configure(with: product)
+            }
+            return menuCell
         }
-        guard let menuCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoctailCell.identifire, for: indexPath) as? CoctailCell else {
-            return UICollectionViewCell()
-        }
-        
-        if let product = listMenu[categories[indexPath.section - 1].name]?[indexPath.row] {
-            menuCell.configure(with: product)
-        }
-        return menuCell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -151,8 +158,8 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
         guard let typeSection = TypeSection.init(rawValue: indexPath.section) else {
             return UICollectionReusableView()
         }
+        
         switch typeSection {
-            
         case .menuList:
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CategoryHeader.identifire, for: indexPath) as? CategoryHeader else {
                 return UICollectionReusableView()
@@ -223,19 +230,10 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
 extension CoctailListController: CoctailListViewProtocol {
     func categories(models: [ModelCategory]) {
         categories = models
-        print(categories.count)
     }
     
-   
     func setIndicatorDownload(state: StateDowload) {
-        switch state {
-        case .loading:
-            menuView.indicatorDownloads.isHidden = false
-            menuView.indicatorDownloads.startAnimating()
-        case .downloadFinished:
-            menuView.indicatorDownloads.isHidden = true
-            menuView.indicatorDownloads.stopAnimating()
-        }
+        menuView.indicatorDownloads.controlActivityIndicator(state: state)
     }
     
     func failure(error: Error) {
@@ -293,6 +291,15 @@ extension CoctailListController: DataSourceHeader {
     
     func numberOfItems(_ header: CategoryHeader) -> Int {
         categories.count
+    }
+}
+extension CoctailListController: ScrollControlDelegate {
+    
+    func selectCategory(index category: Int) {
+        stateScroll = .programScroll
+        lastCategory = .zero
+        let indexPatch = IndexPath(row: .zero, section: category)
+        setContentOffset(heightHeader, indexPath: indexPatch)
     }
 }
 
