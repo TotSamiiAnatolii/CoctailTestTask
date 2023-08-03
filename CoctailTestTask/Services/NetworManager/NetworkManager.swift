@@ -9,7 +9,7 @@ import UIKit
 
 protocol NetworkServiceProtocol: AnyObject {
     
-    func getMenuList(categories: [ModelCategory], completion: @escaping(Result<[String: [ModelCoctailCell]], Error>) -> Void)
+    func getMenuList(categories: [ModelCategory], completion: @escaping(Result<[String: CocktailResponse], Error>) -> Void)
     
     func getDetailDrink(id: String, completion: @escaping(ModelDetailDrink) -> Void)
     
@@ -33,9 +33,9 @@ final class NetworkManager: NetworkServiceProtocol {
     
     private let groupImage = DispatchGroup()
     
-    func getMenuList(categories: [ModelCategory], completion: @escaping (Result<[String: [ModelCoctailCell]], Error>) -> Void) {
+    func getMenuList(categories: [ModelCategory], completion: @escaping (Result<[String: CocktailResponse], Error>) -> Void) {
         
-        var listMenu: [String: [ModelCoctailCell]] = [:]
+        var listMenu: [String: CocktailResponse] = [:]
         
         categories.forEach { category in
             
@@ -43,11 +43,8 @@ final class NetworkManager: NetworkServiceProtocol {
             fetchList(for: category.name) { result in
                 switch result {
                 case .success(let success):
-                    self.getImage(category: [category.name: success]) { image in
-                        
-                        listMenu[category.name] = image
-                        self.groupMenuList.leave()
-                    }
+                    listMenu[category.name] = success
+                    self.groupMenuList.leave()
                 case .failure(let failure):
                     completion(.failure(failure))
                 }
@@ -71,7 +68,7 @@ final class NetworkManager: NetworkServiceProtocol {
                     let image = UIImage(data: imageData ?? Data()) ?? UIImage()
 
                     DispatchQueue.main.async {
-                        modelMenuCell.append(ModelCoctailCell(productImage: image, nameProduct: drink.strDrink))
+//                        modelMenuCell.append(ModelCoctailCell(productImage: image, nameProduct: drink.strDrink))
                         self.groupImage.leave()
                     }
                 }
@@ -79,30 +76,6 @@ final class NetworkManager: NetworkServiceProtocol {
         }
         groupImage.notify(queue: .main) {
             completion(modelMenuCell)
-        }
-    }
-    
-    func getImage2(url: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
-        
-        var image = UIImage()
-        
-//        category.forEach {key, value in
-//            value.drinks.forEach({ drink in
-                groupImage.enter()
-                
-                DispatchQueue.global(qos: .userInitiated).async {
-                    let imageData = try? Data(contentsOf: URL(string: url)!)
-                    image = UIImage(data: imageData ?? Data()) ?? UIImage()
-                    
-//                    DispatchQueue.main.async {
-//                        modelMenuCell.append(ModelCoctailCell(productImage: image, nameProduct: drink.strDrink))
-                        self.groupImage.leave()
-//                    }
-                }
-//            })
-//        }
-        groupImage.notify(queue: .main) {
-            completion(.success(image))
         }
     }
     

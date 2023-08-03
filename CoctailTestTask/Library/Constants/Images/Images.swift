@@ -19,4 +19,6 @@ enum Images {
     
     static let arrowDown: UIImage = UIImage(named: "arrowDown")!
     
+    static let noPhoto: UIImage = UIImage(named: "camera")!
+    
 }

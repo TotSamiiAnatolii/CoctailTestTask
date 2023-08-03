@@ -9,7 +9,7 @@ import UIKit
 
 struct ModelCoctailCell {
     
-    let productImage: UIImage
+    let productImage: String
     
     let nameProduct: String
     

@@ -55,11 +55,10 @@ final class MenuPresenter: CoctailListPresenterProtocol {
     func getMenuList(categories: [ModelCategory]) {
     
         networkService.getMenuList(categories: categories) {result in
-
             switch result {
             case .success(let success):
                 DispatchQueue.main.async {
-                    self.stateView = .papulated(success)
+                    self.stateView = .papulated(self.mapper.mapListMenu(model: success))
                 }
             case .failure(let failure):
                 self.stateView = .error(failure)

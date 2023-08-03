@@ -87,7 +87,8 @@ final class CoctailCell: UICollectionViewCell {
 }
 extension CoctailCell: ConfigurableView {
     func configure(with model: ModelCoctailCell) {
-        self.productImage.image = model.productImage
+//        self.productImage.image = model.productImage
+        self.productImage.image = Images.noPhoto
         self.nameProductLabel.text = model.nameProduct
         self.productDescriptionLabel.text = model.productDescription
         self.priceFromView.configure(with: ModelPriceFrom())
