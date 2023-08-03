@@ -62,6 +62,10 @@ final class CitySelectionButton: UIButton {
     }
     
     private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            imageArrowDown.widthAnchor.constraint(equalToConstant: 10),
+            imageArrowDown.heightAnchor.constraint(equalToConstant: 8)
+        ])
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: self.topAnchor),

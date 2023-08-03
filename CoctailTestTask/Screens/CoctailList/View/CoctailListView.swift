@@ -77,7 +77,6 @@ final class CoctailListView: UIView {
         ])
         
         NSLayoutConstraint.activate([
-            cityButton.heightAnchor.constraint(equalToConstant: heightCityButton),
             cityButton.bottomAnchor.constraint(equalTo: navBarView.bottomAnchor, constant: -indent),
             cityButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: indent)
         ])

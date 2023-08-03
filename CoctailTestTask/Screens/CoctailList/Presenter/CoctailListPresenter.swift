@@ -41,6 +41,7 @@ final class MenuPresenter: CoctailListPresenterProtocol {
     }
 
     func getCategories(completion: @escaping ([ModelCategory])->Void) {
+        
         networkService.getCategory { category in
             switch category {
             case .success(let success):
