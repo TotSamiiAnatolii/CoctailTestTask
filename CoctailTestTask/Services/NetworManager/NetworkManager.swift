@@ -19,14 +19,14 @@ protocol NetworkServiceProtocol: AnyObject {
 final class NetworkManager: NetworkServiceProtocol {
     
     func getDetailDrink(id: String, completion: @escaping (ModelDetailDrink) -> Void) {
-        //        let urlString = ApiUrl.list.rawValue + id
-        //
-        //        let newUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        //        guard let url = URL(string: newUrl) else {
-        //            print("Error")
-        //            return
-        //        }
-        //        fetchModels(from: url, in: completion)
+        let urlString = ApiUrl.list.rawValue + id
+        
+        let newUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        guard let url = URL(string: newUrl) else {
+            print("Error")
+            return
+        }
+        fetchModels(from: url, in: completion)
     }
     
     private let groupMenuList = DispatchGroup()
