@@ -8,46 +8,50 @@
 import UIKit
 
 protocol AssemblyBuilderProtocol {
-    static func createMenu() -> UIViewController
-    static func createContacts() -> UIViewController
-    static func createProfile() -> UIViewController
-    static func createShoppingCart() -> UIViewController
-    static func createDetailDrink(id: String) -> UIViewController
+    func createMenu(router: RouterProtocol) -> UIViewController
+    func createContacts(router: RouterProtocol) -> UIViewController
+    func createProfile(router: RouterProtocol) -> UIViewController
+    func createShoppingCart(router: RouterProtocol) -> UIViewController
+    func createDetailDrink(id: String, router: RouterProtocol) -> UIViewController
 }
 
 final class ModuleBuilder: AssemblyBuilderProtocol {
     
-    static func createDetailDrink(id: String) -> UIViewController {
-        let networkService = NetworkManager()
+    let networkService: NetworkManager
+    
+    init(networkService: NetworkManager) {
+        self.networkService = networkService
+    }
+    
+    func createDetailDrink(id: String, router: RouterProtocol) -> UIViewController {
         let presenter = DetailDrinkPresenter(netwokService: networkService)
         let view = DetailDrinkController(presenter: presenter)
         presenter.view = view
         return view
     }
     
-    static func createMenu() -> UIViewController {
-        let networkService = NetworkManager()
-        let presenter = MenuPresenter(networkService: networkService)
+    func createMenu(router: RouterProtocol) -> UIViewController {
+        let presenter = MenuPresenter(networkService: networkService, router: router)
         let view = CoctailListController(presenter: presenter)
         presenter.view = view
         return view
     }
     
-    static func createContacts() -> UIViewController {
+    func createContacts(router: RouterProtocol) -> UIViewController {
         let view = ContactsViewController()
         let presenter = ContactsPresenter(view: view)
         view.presenter = presenter
         return view
     }
     
-    static func createProfile() -> UIViewController {
+    func createProfile(router: RouterProtocol) -> UIViewController {
         let view = ProfileViewController()
         let presenter = ProfilePresenter(view: view)
         view.presenter = presenter
         return view
     }
     
-    static func createShoppingCart() -> UIViewController {
+    func createShoppingCart(router: RouterProtocol) -> UIViewController {
         let view = ShoppingCartViewController()
         let presenter = ShoppingCartPresenter(view: view)
         view.presenter = presenter

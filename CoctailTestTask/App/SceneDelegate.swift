@@ -18,8 +18,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         let tabBarController = TabBarController()
-        let navTabBar = UINavigationController(rootViewController: tabBarController)
-        window?.rootViewController = navTabBar
+        let networkService = NetworkManager()
+        let assemblyBuilder = ModuleBuilder(networkService: networkService)
+        let router = Router(tabBarController: tabBarController, assemblyBuilder: assemblyBuilder)
+        router.initialViewController()
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
 }

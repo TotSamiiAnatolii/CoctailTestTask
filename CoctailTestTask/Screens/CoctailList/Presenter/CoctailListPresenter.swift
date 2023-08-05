@@ -9,7 +9,7 @@ import UIKit
 
 protocol CoctailListPresenterProtocol: AnyObject {
     
-    init(networkService: NetworkServiceProtocol)
+    init(networkService: NetworkServiceProtocol, router: RouterProtocol)
     
     func viewDidLoad()
     
@@ -20,13 +20,17 @@ protocol CoctailListPresenterProtocol: AnyObject {
     func updateStateDragging(state: StateScroll)
     
     func setViewState(state: CoctailListViewState)
+    
+    func showCoctail(id: String)
 }
 
 final class MenuPresenter: CoctailListPresenterProtocol {
- 
+   
     weak var view: CoctailListViewProtocol?
     
     private let networkService: NetworkServiceProtocol
+    
+    private let router: RouterProtocol
     
     private let mapper = CoctailMapper()
     
@@ -36,8 +40,9 @@ final class MenuPresenter: CoctailListPresenterProtocol {
         }
     }
     
-    init(networkService: NetworkServiceProtocol) {
+    init(networkService: NetworkServiceProtocol, router: RouterProtocol) {
         self.networkService = networkService
+        self.router = router
     }
 
     func getCategories(completion: @escaping ([ModelCategory])->Void) {
@@ -76,6 +81,10 @@ final class MenuPresenter: CoctailListPresenterProtocol {
     
     func updateStateDragging(state: StateScroll) {
         view?.stateScroll = state
+    }
+    
+    func showCoctail(id: String) {
+        router.showDetail(id: id)
     }
     
     func setViewState(state: CoctailListViewState) {

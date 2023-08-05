@@ -11,19 +11,15 @@ protocol NetworkServiceProtocol: AnyObject {
     
     func getMenuList(categories: [ModelCategory], completion: @escaping(Result<[String: CocktailResponse], Error>) -> Void)
     
-    func getDetailDrink(id: String, completion: @escaping(ModelDetailDrink) -> Void)
+    func getDetailDrink(id: String, completion: @escaping (Result<ModelDetailDrink, Error>) -> Void)
     
     func getCategory(completion: @escaping(Result<Categories, Error>) -> Void)
 }
 
 final class NetworkManager: NetworkServiceProtocol {
     
-    func getDetailDrink(id: String, completion: @escaping (ModelDetailDrink) -> Void) {
-        let urlString = ApiUrl.list.rawValue + id
-        
-        let newUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        guard let url = URL(string: newUrl) else {
-            print("Error")
+    func getDetailDrink(id: String, completion: @escaping (Result<ModelDetailDrink, Error>) -> Void) {
+        guard let url = API.fetchDetailDrink(id: id) else {
             return
         }
         fetchModels(from: url, in: completion)
@@ -108,11 +104,8 @@ final class NetworkManager: NetworkServiceProtocol {
             
             do {
                 let decoder = JSONDecoder()
-                print(data)
                 let model = try decoder.decode(T.self, from: data)
-                DispatchQueue.main.async {
                     completion(.success(model))
-                }
             }
             catch {
                 print("decode error")

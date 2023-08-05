@@ -29,13 +29,13 @@ enum API {
         return components.url
     }
     
-    static func fetchDetailDrink(category: String) -> URL? {
+    static func fetchDetailDrink(id: String) -> URL? {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "thecocktaildb.com"
         components.path = "/api/json/v1/1/filter.php"
         components.queryItems = [
-            URLQueryItem(name: "c", value: category)]
+            URLQueryItem(name: "c", value: id)]
         return components.url
     }
 }
