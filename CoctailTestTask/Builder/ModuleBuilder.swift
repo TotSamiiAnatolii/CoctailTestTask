@@ -24,7 +24,7 @@ final class ModuleBuilder: AssemblyBuilderProtocol {
     }
     
     func createDetailDrink(id: String, router: RouterProtocol) -> UIViewController {
-        let presenter = DetailDrinkPresenter(netwokService: networkService)
+        let presenter = DetailDrinkPresenter(id: id, netwokService: networkService, router: router)
         let view = DetailDrinkController(presenter: presenter)
         presenter.view = view
         return view

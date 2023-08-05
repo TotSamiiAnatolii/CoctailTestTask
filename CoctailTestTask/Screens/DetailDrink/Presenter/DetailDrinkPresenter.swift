@@ -9,26 +9,32 @@ import Foundation
 
 protocol DetailDrinkPresenterProtocol: AnyObject {
     
-    func getDetailDrink()
-    
-    var detailDrink: ModelDetailDrink? { get set }
+    func getDetailDrink(id: String)
+
 }
 
 final class DetailDrinkPresenter: DetailDrinkPresenterProtocol {
     
-    let networkService: NetworkServiceProtocol
+    private let networkService: NetworkServiceProtocol
+    
+    private let router: RouterProtocol
     
     weak var view: DetailDrinkViewProtocol?
     
-    init(netwokService: NetworkServiceProtocol) {
+    init(id: String, netwokService: NetworkServiceProtocol, router: RouterProtocol) {
         self.networkService = netwokService
+        self.router = router
+        getDetailDrink(id: id)
     }
-    
-    var detailDrink: ModelDetailDrink?
-    
-    func getDetailDrink() {
-        networkService.getDetailDrink(id: "") {[weak self] detailDrink in
-            
+        
+    func getDetailDrink(id: String) {
+        networkService.getDetailDrink(id: id) {result in
+            switch result {
+            case .success(let success):
+                print(success)
+            case .failure(let failure):
+                print(failure)
+            }
         }
     }
 }

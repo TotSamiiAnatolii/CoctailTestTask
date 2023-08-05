@@ -13,7 +13,7 @@ protocol DetailDrinkViewProtocol: AnyObject {
 
 final class DetailDrinkController: UIViewController {
 
-    fileprivate var detailDrink: DetailDrinkView {
+     var detailDrink: DetailDrinkView {
         guard let view = self.view as? DetailDrinkView else {
             return DetailDrinkView()
         }
@@ -29,7 +29,6 @@ final class DetailDrinkController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureView(drink: presenter.detailDrink)
     }
     
     init(presenter: DetailDrinkPresenterProtocol) {
