@@ -18,16 +18,16 @@ protocol NetworkServiceProtocol: AnyObject {
 
 final class NetworkManager: NetworkServiceProtocol {
     
-    func getDetailDrink(id: String, completion: @escaping (Result<ModelDetailDrink, Error>) -> Void) {
-        guard let url = API.fetchDetailDrink(id: id) else {
+    private let groupMenuList = DispatchGroup()
+    
+    private let groupImage = DispatchGroup()
+    
+    func getCategory(completion: @escaping(Result<Categories, Error>) -> Void) {
+        guard let url = API.categories else {
             return
         }
         fetchModels(from: url, in: completion)
     }
-    
-    private let groupMenuList = DispatchGroup()
-    
-    private let groupImage = DispatchGroup()
     
     func getMenuList(categories: [ModelCategory], completion: @escaping (Result<[String: CocktailResponse], Error>) -> Void) {
         
@@ -49,6 +49,13 @@ final class NetworkManager: NetworkServiceProtocol {
         groupMenuList.notify(queue: .main) {
             completion(.success(listMenu))
         }
+    }
+    
+    func getDetailDrink(id: String, completion: @escaping (Result<ModelDetailDrink, Error>) -> Void) {
+        guard let url = API.fetchDetailDrink(id: id) else {
+            return
+        }
+        fetchModels(from: url, in: completion)
     }
     
     func getImage(category: [String: CocktailResponse], completion: @escaping ([ModelCoctailCell]) -> Void) {
@@ -77,13 +84,6 @@ final class NetworkManager: NetworkServiceProtocol {
     
     func fetchList(for category: String, completion: @escaping (Result<CocktailResponse, Error>) -> Void) {
         guard let url = API.fetchCategory(category: category) else {
-            return
-        }
-        fetchModels(from: url, in: completion)
-    }
-    
-    func getCategory(completion: @escaping(Result<Categories, Error>) -> Void) {
-        guard let url = API.categories else {
             return
         }
         fetchModels(from: url, in: completion)

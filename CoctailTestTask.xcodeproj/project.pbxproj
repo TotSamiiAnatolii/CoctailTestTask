@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		187D84B42A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D84B32A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift */; };
+		1880DAE22A7FC5680013F195 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880DAE12A7FC5680013F195 /* ImageDownloader.swift */; };
+		1880DAE52A7FE2A00013F195 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880DAE42A7FE2A00013F195 /* UIImageView.swift */; };
 		188BB5A52A4703E1004810DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BB5A42A4703E1004810DF /* AppDelegate.swift */; };
 		188BB5A72A4703E1004810DF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BB5A62A4703E1004810DF /* SceneDelegate.swift */; };
 		188BB5A92A4703E1004810DF /* CoctailListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BB5A82A4703E1004810DF /* CoctailListController.swift */; };
@@ -88,6 +90,8 @@
 
 /* Begin PBXFileReference section */
 		187D84B32A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+.swift"; sourceTree = "<group>"; };
+		1880DAE12A7FC5680013F195 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
+		1880DAE42A7FE2A00013F195 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		188BB5A12A4703E1004810DF /* CoctailTestTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoctailTestTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		188BB5A42A4703E1004810DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		188BB5A62A4703E1004810DF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -182,6 +186,39 @@
 				187D84B32A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift */,
 			);
 			path = UIActivityIndicatorView;
+			sourceTree = "<group>";
+		};
+		1880DADE2A7FC3EE0013F195 /* NetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+				188BB60E2A47318D004810DF /* NetworkManager.swift */,
+			);
+			path = NetworkManager;
+			sourceTree = "<group>";
+		};
+		1880DADF2A7FC4080013F195 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				188BB6102A4731BC004810DF /* ModelDrink.swift */,
+				188D0BC62A76E54000D714B0 /* ModelCategories.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1880DAE02A7FC4330013F195 /* ImageDownloader */ = {
+			isa = PBXGroup;
+			children = (
+				1880DAE12A7FC5680013F195 /* ImageDownloader.swift */,
+			);
+			path = ImageDownloader;
+			sourceTree = "<group>";
+		};
+		1880DAE32A7FE27F0013F195 /* UIImageView */ = {
+			isa = PBXGroup;
+			children = (
+				1880DAE42A7FE2A00013F195 /* UIImageView.swift */,
+			);
+			path = UIImageView;
 			sourceTree = "<group>";
 		};
 		188BB5982A4703E1004810DF = {
@@ -444,6 +481,7 @@
 		188BB5EE2A470968004810DF /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				1880DAE32A7FE27F0013F195 /* UIImageView */,
 				187D84B22A7AD2810012AA64 /* UIActivityIndicatorView */,
 				188BB5F22A470995004810DF /* UIButton */,
 				188BB5F12A47098C004810DF /* UIView */,
@@ -636,10 +674,10 @@
 		188D0BC22A76508F00D714B0 /* NetworManager */ = {
 			isa = PBXGroup;
 			children = (
-				188BB60E2A47318D004810DF /* NetworkManager.swift */,
+				1880DAE02A7FC4330013F195 /* ImageDownloader */,
+				1880DADE2A7FC3EE0013F195 /* NetworkManager */,
+				1880DADF2A7FC4080013F195 /* Model */,
 				188BB6122A47320E004810DF /* ApiURL.swift */,
-				188BB6102A4731BC004810DF /* ModelDrink.swift */,
-				188D0BC62A76E54000D714B0 /* ModelCategories.swift */,
 			);
 			path = NetworManager;
 			sourceTree = "<group>";
@@ -802,6 +840,7 @@
 				188BB6332A47374F004810DF /* ModelTopBanner.swift in Sources */,
 				188BB6042A470AB4004810DF /* Images.swift in Sources */,
 				188BB61E2A47344D004810DF /* CategoryHeader.swift in Sources */,
+				1880DAE22A7FC5680013F195 /* ImageDownloader.swift in Sources */,
 				188BB6422A4739EF004810DF /* DetailDrinkView.swift in Sources */,
 				188BB6582A473C64004810DF /* BannerCell.swift in Sources */,
 				188BB6362A47378C004810DF /* EnumsFroProject.swift in Sources */,
@@ -812,6 +851,7 @@
 				188BB6022A470A9C004810DF /* Colors.swift in Sources */,
 				188BB5A92A4703E1004810DF /* CoctailListController.swift in Sources */,
 				188BB6132A47320E004810DF /* ApiURL.swift in Sources */,
+				1880DAE52A7FE2A00013F195 /* UIImageView.swift in Sources */,
 				187D84B42A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift in Sources */,
 				188BB5F82A4709FE004810DF /* UIView+MyStyle.swift in Sources */,
 				188BB62D2A4736F1004810DF /* ModelSelectCategoryCell.swift in Sources */,

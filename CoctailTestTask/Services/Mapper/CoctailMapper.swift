@@ -23,7 +23,7 @@ extension Mapper {
 }
 
 final class CoctailMapper: Mapper {
- 
+    
     func mapCategories(model: DrinkCategories) -> ModelCategory {
         ModelCategory(name: model.strCategory, isSelected: false)
     }
@@ -36,9 +36,7 @@ final class CoctailMapper: Mapper {
             cocktail[key] = value.drinks.map({ Drink in
                 return ModelCoctailCell(productImage: Drink.strDrinkThumb, nameProduct: Drink.strDrink)
             })
-                                      
-    }
-        
+        }
         return cocktail
     }
 }

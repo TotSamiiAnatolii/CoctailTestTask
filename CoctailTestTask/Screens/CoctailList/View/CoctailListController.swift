@@ -200,10 +200,13 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        UIView.animate(withDuration: 0.2) {
+//        if let cell = collectionView.cellForItem(at: indexPath) as? CoctailCell {
+//            cell.animate()
+//        }
+        UIView.animate(withDuration: 0.1) {
                if let cell = collectionView.cellForItem(at: indexPath) as? CoctailCell {
-//                   cell.imageView.transform = .init(scaleX: 0.95, y: 0.95)
-                   cell.contentView.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
+                   cell.animate()
+//                   cell.contentView.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
                }
            }
     }
@@ -211,8 +214,9 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         UIView.animate(withDuration: 0.2) {
               if let cell = collectionView.cellForItem(at: indexPath) as? CoctailCell {
-//                  cell.imageView.transform = .identity
-                  cell.contentView.backgroundColor = .clear
+                  cell.productImage.transform = .identity
+                  cell.stackView.transform = .identity
+                  cell.priceFromView.transform = .identity
               }
           }
     }

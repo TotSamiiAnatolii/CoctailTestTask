@@ -13,7 +13,7 @@ final class CoctailCell: UICollectionViewCell {
     
     private let indentRight: CGFloat = 24
     
-    private let productImage: UIImageView = {
+     let productImage: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFill
@@ -22,7 +22,7 @@ final class CoctailCell: UICollectionViewCell {
         image.backgroundColor = Colors.mainBackGroundColor
         return image
     }()
-
+ 
     private let nameProductLabel: UILabel = UILabel()
         .setMyStyle(numberOfLines: 0,
                     textAlignment: .left,
@@ -35,9 +35,9 @@ final class CoctailCell: UICollectionViewCell {
                     font: Fonts.productDescription)
         .setTextColor(color: Colors.textColor)
 
-    private let priceFromView: PriceFrom = PriceFrom()
+     let priceFromView: PriceFrom = PriceFrom()
 
-    private let stackView: UIStackView = UIStackView()
+     let stackView: UIStackView = UIStackView()
         .myStyleStack(spacing: 8,
                       alignment: .fill,
                       axis: .vertical,
@@ -48,7 +48,7 @@ final class CoctailCell: UICollectionViewCell {
         super.init(frame: frame)
         setViewHierarhies()
         setupConstraints()
-        contentView.backgroundColor = Colors.mainBackGroundColor
+//        contentView.backgroundColor = Colors.mainBackGroundColor
     }
     
     required init?(coder: NSCoder) {
@@ -64,6 +64,7 @@ final class CoctailCell: UICollectionViewCell {
     }
 
     private func setupConstraints() {
+      
         NSLayoutConstraint.activate([
             productImage.widthAnchor.constraint(equalToConstant: 132),
             productImage.heightAnchor.constraint(equalTo: productImage.widthAnchor),
@@ -83,6 +84,25 @@ final class CoctailCell: UICollectionViewCell {
             priceFromView.widthAnchor.constraint(equalToConstant: 87),
             priceFromView.heightAnchor.constraint(equalToConstant: 32)
         ])
+    }
+    
+    func animate() {
+        productImage.transform = .init(scaleX: 0.9, y: 0.9)
+        stackView.transform = .init(scaleX: 0.9, y: 0.9)
+        priceFromView.transform = .init(scaleX: 0.9, y: 0.9)
+//        var constraint: NSLayoutConstraint?
+//        constraint = productImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+//        constraint?.isActive = true
+//        constraint?.constant += 20
+//        UIView.animate(
+//            withDuration: 0.8,
+//            delay: 0,
+//            usingSpringWithDamping: 0.5,
+//            initialSpringVelocity: 0.5,
+//            options: .curveEaseIn,
+//            animations: {
+//            self.layoutIfNeeded()
+//        }, completion: nil)
     }
 }
 extension CoctailCell: ConfigurableView {
