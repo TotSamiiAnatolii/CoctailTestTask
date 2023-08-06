@@ -63,6 +63,8 @@ final class MenuPresenter: CoctailListPresenterProtocol {
         networkService.getMenuList(categories: categories) {result in
             switch result {
             case .success(let success):
+                let photo = success.map
+                
                 DispatchQueue.main.async {
                     self.stateView = .papulated(self.mapper.mapListMenu(model: success))
                 }

@@ -55,6 +55,12 @@ final class CoctailCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        productImage.image = nil
+        nameProductLabel.text = nil
+    }
+    
     private func setViewHierarhies() {
         contentView.addSubview(productImage)
         contentView.addSubview(stackView)
@@ -107,8 +113,7 @@ final class CoctailCell: UICollectionViewCell {
 }
 extension CoctailCell: ConfigurableView {
     func configure(with model: ModelCoctailCell) {
-//        self.productImage.image = model.productImage
-        self.productImage.image = Images.noPhoto
+        self.productImage.setImageURL(for: model.productImage, placeholder: Images.noPhoto)
         self.nameProductLabel.text = model.nameProduct
         self.productDescriptionLabel.text = model.productDescription
         self.priceFromView.configure(with: ModelPriceFrom())

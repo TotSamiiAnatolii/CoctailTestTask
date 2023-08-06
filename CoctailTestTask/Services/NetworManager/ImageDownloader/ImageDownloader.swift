@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol ImageDownLoaderProtocol {
     
@@ -18,9 +19,23 @@ final class ImageDownloader: ImageDownLoaderProtocol {
     
     static let shared = ImageDownloader()
     
-    private var imageCashe = NSCache<NSString, NSData>()
+    private var imageCache = NSCache<NSString, NSData>()
     
     private let imageDownLoadQueue = DispatchQueue.global(qos: .userInitiated)
+    
+    func warmCache(with url: String, copletion: @escaping () -> Void = {}) {
+        
+        guard let imageUrl = URL(string: url) else {
+            return
+        }
+        
+        imageDownLoadQueue.async {
+            guard let image = try? Data(contentsOf: imageUrl) else {
+                return
+            }
+            self.imageCache.setObject(image as NSData, forKey: url as NSString)
+        }
+    }
     
     func getImage(for url: String, completion: @escaping (Data) -> Void, useCash: Bool) {
         
@@ -28,18 +43,21 @@ final class ImageDownloader: ImageDownLoaderProtocol {
             return
         }
         
-        if let data = imageCashe.object(forKey: url as NSString) {
+        if let data = imageCache.object(forKey: url as NSString) {
             completion(data as Data)
             return
         }
         
         imageDownLoadQueue.async {
-            self.getImage1(for: imageUrl) { data in
+            
+            let imageData = try? Data(contentsOf: imageUrl)
+            let image = UIImage(data: imageData!)
+//            self.getImage1(for: imageUrl) { data in
                 
-                self.imageCashe.setObject(data as NSData, forKey: url as NSString)
+            self.imageCache.setObject(imageData! as NSData, forKey: url as NSString)
                 
-                completion(data)
-            }
+            completion(imageData!)
+//            }
         }
     }
     
