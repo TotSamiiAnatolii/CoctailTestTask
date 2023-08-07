@@ -63,10 +63,34 @@ final class MenuPresenter: CoctailListPresenterProtocol {
         networkService.getMenuList(categories: categories) {result in
             switch result {
             case .success(let success):
-                let photo = success.map
+                
+//                var photo: [URL] = []
+//                for i in 0...1 {
+                    
+                    var photo = (success[categories[0].name]?.drinks
+                        .compactMap{URL(string: $0.strDrinkThumb)})!
+//                        .flatMap{$0.drinks}
+                       
+//                        .compactMap{URL(string: $0.strDrinkThumb)}
+//                }
+                photo.forEach { url in
+                    ImageDownloader.shared.warmCache(with: url)
+                }
                 
                 DispatchQueue.main.async {
                     self.stateView = .papulated(self.mapper.mapListMenu(model: success))
+                }
+                
+                for i in 1...categories.count - 1 {
+
+                    photo = (success[categories[i].name]?.drinks
+                        .compactMap{URL(string: $0.strDrinkThumb)})!
+//                        .flatMap{$0.drinks}
+
+//                        .compactMap{URL(string: $0.strDrinkThumb)}
+                }
+                photo.forEach { url in
+                    ImageDownloader.shared.warmCache(with: url)
                 }
             case .failure(let failure):
                 self.stateView = .error(failure)

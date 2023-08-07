@@ -10,7 +10,7 @@ import UIKit
 
 protocol ImageDownLoaderProtocol {
     
-    func getImage(for url: String, completion: @escaping (Data) -> Void, useCash: Bool)
+    func getImage(for url: String, completion: @escaping (UIImage) -> Void, useCash: Bool)
     
     
 }
@@ -19,44 +19,48 @@ final class ImageDownloader: ImageDownLoaderProtocol {
     
     static let shared = ImageDownloader()
     
-    private var imageCache = NSCache<NSString, NSData>()
+    private var imageCache = NSCache<NSURL, UIImage>()
     
     private let imageDownLoadQueue = DispatchQueue.global(qos: .userInitiated)
     
-    func warmCache(with url: String, copletion: @escaping () -> Void = {}) {
-        
-        guard let imageUrl = URL(string: url) else {
-            return
-        }
+    func warmCache(with url: URL, copletion: @escaping () -> Void = {}) {
         
         imageDownLoadQueue.async {
-            guard let image = try? Data(contentsOf: imageUrl) else {
+            guard let image = try? Data(contentsOf: url) else {
                 return
             }
-            self.imageCache.setObject(image as NSData, forKey: url as NSString)
+            
+            let image1 = UIImage(data: image)!.copy(newSize: CGSize(width: 150, height: 150))!
+            DispatchQueue.main.async {
+                self.imageCache.setObject(image1 as UIImage, forKey: url as NSURL)
+            }
+//            self.imageCache.setObject(image as NSData, forKey: url as NSURL)
         }
     }
     
-    func getImage(for url: String, completion: @escaping (Data) -> Void, useCash: Bool) {
+    func getImage(for url: String, completion: @escaping (UIImage) -> Void, useCash: Bool) {
         
         guard let imageUrl = URL(string: url) else {
             return
         }
         
-        if let data = imageCache.object(forKey: url as NSString) {
-            completion(data as Data)
+        if let data = imageCache.object(forKey: imageUrl as NSURL) {
+            completion(data as UIImage)
             return
         }
         
         imageDownLoadQueue.async {
             
             let imageData = try? Data(contentsOf: imageUrl)
-            let image = UIImage(data: imageData!)
+            let image = UIImage(data: imageData!)!.copy(newSize: CGSize(width: 150, height: 150))!
 //            self.getImage1(for: imageUrl) { data in
                 
-            self.imageCache.setObject(imageData! as NSData, forKey: url as NSString)
+            DispatchQueue.main.async {
+                self.imageCache.setObject(image as UIImage, forKey: imageUrl as NSURL)
+            }
+            
                 
-            completion(imageData!)
+            completion(image)
 //            }
         }
     }

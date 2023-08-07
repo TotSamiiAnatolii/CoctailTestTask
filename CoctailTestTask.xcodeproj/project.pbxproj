@@ -10,6 +10,7 @@
 		187D84B42A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D84B32A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift */; };
 		1880DAE22A7FC5680013F195 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880DAE12A7FC5680013F195 /* ImageDownloader.swift */; };
 		1880DAE52A7FE2A00013F195 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880DAE42A7FE2A00013F195 /* UIImageView.swift */; };
+		1880DAE82A8031C60013F195 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880DAE72A8031C60013F195 /* UIImage+.swift */; };
 		188BB5A52A4703E1004810DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BB5A42A4703E1004810DF /* AppDelegate.swift */; };
 		188BB5A72A4703E1004810DF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BB5A62A4703E1004810DF /* SceneDelegate.swift */; };
 		188BB5A92A4703E1004810DF /* CoctailListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BB5A82A4703E1004810DF /* CoctailListController.swift */; };
@@ -92,6 +93,7 @@
 		187D84B32A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+.swift"; sourceTree = "<group>"; };
 		1880DAE12A7FC5680013F195 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		1880DAE42A7FE2A00013F195 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
+		1880DAE72A8031C60013F195 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		188BB5A12A4703E1004810DF /* CoctailTestTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoctailTestTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		188BB5A42A4703E1004810DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		188BB5A62A4703E1004810DF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -219,6 +221,14 @@
 				1880DAE42A7FE2A00013F195 /* UIImageView.swift */,
 			);
 			path = UIImageView;
+			sourceTree = "<group>";
+		};
+		1880DAE62A8031AE0013F195 /* UIImage */ = {
+			isa = PBXGroup;
+			children = (
+				1880DAE72A8031C60013F195 /* UIImage+.swift */,
+			);
+			path = UIImage;
 			sourceTree = "<group>";
 		};
 		188BB5982A4703E1004810DF = {
@@ -481,6 +491,7 @@
 		188BB5EE2A470968004810DF /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				1880DAE62A8031AE0013F195 /* UIImage */,
 				1880DAE32A7FE27F0013F195 /* UIImageView */,
 				187D84B22A7AD2810012AA64 /* UIActivityIndicatorView */,
 				188BB5F22A470995004810DF /* UIButton */,
@@ -875,6 +886,7 @@
 				188BB5F42A4709B7004810DF /* UILabel+MyStyle.swift in Sources */,
 				188BB6522A473BEA004810DF /* ShoppingCartPresenter.swift in Sources */,
 				188BB64E2A473BA1004810DF /* ProfileViewController.swift in Sources */,
+				1880DAE82A8031C60013F195 /* UIImage+.swift in Sources */,
 				188BB5D72A47047A004810DF /* ModuleBuilder.swift in Sources */,
 				188BB63E2A4739C0004810DF /* ModelDetailDrink.swift in Sources */,
 			);

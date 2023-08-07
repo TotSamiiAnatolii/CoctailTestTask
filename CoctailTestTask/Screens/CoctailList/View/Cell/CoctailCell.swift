@@ -16,7 +16,7 @@ final class CoctailCell: UICollectionViewCell {
      let productImage: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleAspectFill
+        image.contentMode = .scaleAspectFit
         image.clipsToBounds = true
         image.layer.cornerRadius = 10
         image.backgroundColor = Colors.mainBackGroundColor
