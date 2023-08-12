@@ -63,7 +63,7 @@ final class ImageDownloader: ImageDownLoaderProtocol {
             completion(data as UIImage)
             return
         }
-        
+        print("NotLoadet")
         self.getData(for: imageUrl) { result in
             switch result {
             case .success(let success):

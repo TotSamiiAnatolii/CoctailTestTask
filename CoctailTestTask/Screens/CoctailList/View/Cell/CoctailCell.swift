@@ -112,12 +112,13 @@ final class CoctailCell: UICollectionViewCell {
     }
 }
 extension CoctailCell: ConfigurableView {
+    
+    typealias Model = ModelCoctailCell
+    
     func configure(with model: ModelCoctailCell) {
         self.productImage.setImageURL(for: model.productImage, placeholder: Images.noPhoto)
         self.nameProductLabel.text = model.nameProduct
         self.productDescriptionLabel.text = model.productDescription
         self.priceFromView.configure(with: ModelPriceFrom())
     }
-    
-    typealias Model = ModelCoctailCell
 }
