@@ -5,14 +5,20 @@
 //  Created by APPLE on 06.08.2023.
 //
 
-import Foundation
 import UIKit
+
+enum ImageResizes {
+    case poster
+    case full
+}
 
 protocol ImageDownLoaderProtocol {
     
+    func getData(for url: URL, completion: @escaping (Result<Data, Error>) -> Void)
+    
     func getImage(for url: String, completion: @escaping (UIImage) -> Void, useCash: Bool)
     
-    
+    func warmCache(with url: URL, copletion: @escaping () -> Void)
 }
 
 final class ImageDownloader: ImageDownLoaderProtocol {
@@ -25,16 +31,24 @@ final class ImageDownloader: ImageDownLoaderProtocol {
     
     func warmCache(with url: URL, copletion: @escaping () -> Void = {}) {
         
-        imageDownLoadQueue.async {
-            guard let image = try? Data(contentsOf: url) else {
-                return
-            }
+        self.getData(for: url) { result in
             
-            let image1 = UIImage(data: image)!.copy(newSize: CGSize(width: 150, height: 150))!
-            DispatchQueue.main.async {
-                self.imageCache.setObject(image1 as UIImage, forKey: url as NSURL)
+            switch result {
+            case .success(let success):
+                
+                self.imageDownLoadQueue.async {
+                    guard let image = UIImage(data: success) else {
+                        return }
+                    guard let imageResizes = image.resize(newSize: CGSize(width: 150, height: 150)) else {
+                        self.imageCache.setObject(image as UIImage, forKey: url as NSURL)
+                        return
+                    }
+                    self.imageCache.setObject(imageResizes as UIImage, forKey: url as NSURL)
+                }
+                
+            case .failure(let failure):
+                print(failure.localizedDescription)
             }
-//            self.imageCache.setObject(image as NSData, forKey: url as NSURL)
         }
     }
     
@@ -45,30 +59,36 @@ final class ImageDownloader: ImageDownLoaderProtocol {
         }
         
         if let data = imageCache.object(forKey: imageUrl as NSURL) {
+            print("Loadet")
             completion(data as UIImage)
             return
         }
         
-        imageDownLoadQueue.async {
-            
-            let imageData = try? Data(contentsOf: imageUrl)
-            let image = UIImage(data: imageData!)!.copy(newSize: CGSize(width: 150, height: 150))!
-//            self.getImage1(for: imageUrl) { data in
-                
-            DispatchQueue.main.async {
-                self.imageCache.setObject(image as UIImage, forKey: imageUrl as NSURL)
+        self.getData(for: imageUrl) { result in
+            switch result {
+            case .success(let success):
+                self.imageDownLoadQueue.async {
+                    guard let image = UIImage(data: success) else { return }
+                    
+                    guard let imageResizes = image.resize(newSize: CGSize(width: 150, height: 150)) else {
+                        self.imageCache.setObject(image as UIImage, forKey: imageUrl as NSURL)
+                        completion(image)
+                        return
+                    }
+                    self.imageCache.setObject(imageResizes as UIImage, forKey: imageUrl as NSURL)
+                    completion(imageResizes)
+                }
+            case .failure(let failure):
+                print(failure.localizedDescription)
             }
-            
-                
-            completion(image)
-//            }
         }
     }
     
-    private func getImage1(for url: URL, completion: @escaping (Data) -> Void) {
+    func getData(for url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
         URLSession.shared.dataTask(with: url) { data, _, error in
             
             if let error = error {
+                completion(.failure(error))
                 print(error.localizedDescription)
             }
             
@@ -77,14 +97,7 @@ final class ImageDownloader: ImageDownLoaderProtocol {
                 return
             }
             
-            do {
-                let decoder = JSONDecoder()
-                let model = try decoder.decode(Data.self, from: data)
-                completion(data)
-            }
-            catch {
-                print("decode error")
-            }
+            completion(.success(data))
         }.resume()
     }
 }

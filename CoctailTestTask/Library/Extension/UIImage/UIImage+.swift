@@ -9,7 +9,7 @@ import UIKit
 
 extension UIImage {
     
-    func copy(newSize: CGSize, retina: Bool = true) -> UIImage? {
+    func resize(newSize: CGSize, retina: Bool = true) -> UIImage? {
         
         UIGraphicsBeginImageContextWithOptions(
             newSize,
