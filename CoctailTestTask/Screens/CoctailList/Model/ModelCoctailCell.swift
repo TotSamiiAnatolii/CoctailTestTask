@@ -14,4 +14,6 @@ struct ModelCoctailCell {
     let nameProduct: String
     
     let productDescription: String = "Очень вкусно, почти полезно. Пей наслаждайся"
+    
+    let listIngredients: [String?]
 }

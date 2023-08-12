@@ -30,7 +30,7 @@ final class ImageDownloader: ImageDownLoaderProtocol {
     private let imageDownLoadQueue = DispatchQueue.global(qos: .userInitiated)
     
     func warmCache(with url: URL, copletion: @escaping () -> Void = {}) {
-        
+
         self.getData(for: url) { result in
             
             switch result {
@@ -39,11 +39,7 @@ final class ImageDownloader: ImageDownLoaderProtocol {
                 self.imageDownLoadQueue.async {
                     guard let image = UIImage(data: success) else {
                         return }
-                    guard let imageResizes = image.resize(newSize: CGSize(width: 150, height: 150)) else {
-                        self.imageCache.setObject(image as UIImage, forKey: url as NSURL)
-                        return
-                    }
-                    self.imageCache.setObject(imageResizes as UIImage, forKey: url as NSURL)
+                    self.imageCache.setObject(image as UIImage, forKey: url as NSURL)
                 }
                 
             case .failure(let failure):
@@ -53,7 +49,6 @@ final class ImageDownloader: ImageDownLoaderProtocol {
     }
     
     func getImage(for url: String, completion: @escaping (UIImage) -> Void, useCash: Bool) {
-        
         guard let imageUrl = URL(string: url) else {
             return
         }
@@ -69,14 +64,8 @@ final class ImageDownloader: ImageDownLoaderProtocol {
             case .success(let success):
                 self.imageDownLoadQueue.async {
                     guard let image = UIImage(data: success) else { return }
-                    
-                    guard let imageResizes = image.resize(newSize: CGSize(width: 150, height: 150)) else {
-                        self.imageCache.setObject(image as UIImage, forKey: imageUrl as NSURL)
-                        completion(image)
-                        return
-                    }
-                    self.imageCache.setObject(imageResizes as UIImage, forKey: imageUrl as NSURL)
-                    completion(imageResizes)
+                    self.imageCache.setObject(image as UIImage, forKey: imageUrl as NSURL)
+                    completion(image)
                 }
             case .failure(let failure):
                 print(failure.localizedDescription)

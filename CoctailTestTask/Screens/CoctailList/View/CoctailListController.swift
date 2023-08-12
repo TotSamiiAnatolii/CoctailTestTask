@@ -197,6 +197,7 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        presenter.showCoctail(id: "")
+        print(listMenu[categories[indexPath.section].name]?[indexPath.row].nameProduct)
     }
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {

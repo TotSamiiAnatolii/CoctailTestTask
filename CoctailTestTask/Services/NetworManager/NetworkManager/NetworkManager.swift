@@ -9,11 +9,13 @@ import UIKit
 
 protocol NetworkServiceProtocol: AnyObject {
     
+    func getCategory(completion: @escaping(Result<Categories, Error>) -> Void)
+    
     func getMenuList(categories: [ModelCategory], completion: @escaping(Result<[String: CocktailResponse], Error>) -> Void)
     
-    func getDetailDrink(id: String, completion: @escaping (Result<ModelDetailDrink, Error>) -> Void)
+//    func searchForIngredientID(id: String, completion: @escaping (Result<ModelDetailDrink, Error>) -> Void)
     
-    func getCategory(completion: @escaping(Result<Categories, Error>) -> Void)
+    func getDetailDrink(id: String, completion: @escaping (Result<ModelDetailDrink, Error>) -> Void)
 }
 
 final class NetworkManager: NetworkServiceProtocol {
@@ -57,31 +59,7 @@ final class NetworkManager: NetworkServiceProtocol {
         }
         fetchModels(from: url, in: completion)
     }
-    
-    func getImage(category: [String: CocktailResponse], completion: @escaping ([ModelCoctailCell]) -> Void) {
-        
-        var modelMenuCell: [ModelCoctailCell] = []
 
-        category.forEach {key, value in
-            value.drinks.forEach({ drink in
-                groupImage.enter()
-
-                DispatchQueue.global(qos: .userInitiated).async {
-                    let imageData = try? Data(contentsOf: URL(string: drink.strDrinkThumb)!)
-                    let image = UIImage(data: imageData ?? Data()) ?? UIImage()
-
-                    DispatchQueue.main.async {
-//                        modelMenuCell.append(ModelCoctailCell(productImage: image, nameProduct: drink.strDrink))
-                        self.groupImage.leave()
-                    }
-                }
-            })
-        }
-        groupImage.notify(queue: .main) {
-            completion(modelMenuCell)
-        }
-    }
-    
     func fetchList(for category: String, completion: @escaping (Result<CocktailResponse, Error>) -> Void) {
         guard let url = API.fetchCategory(category: category) else {
             return
