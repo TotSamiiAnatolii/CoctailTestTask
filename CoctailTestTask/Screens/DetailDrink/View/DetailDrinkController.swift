@@ -8,7 +8,7 @@
 import UIKit
 
 protocol DetailDrinkViewProtocol: AnyObject {
-    func configureView(drink: ModelDetailDrink?)
+//    func configureView(drink: ModelDetailDrink?)
 }
 
 final class DetailDrinkController: UIViewController {
@@ -42,9 +42,9 @@ final class DetailDrinkController: UIViewController {
 }
 extension DetailDrinkController: DetailDrinkViewProtocol {
     
-    func configureView(drink: ModelDetailDrink?) {
-      
-        let modelView = ModelDetailDrinkView()
-        detailDrink.configure(with: modelView)
-    }
+//    func configureView(drink: ModelDetailDrink?) {
+//      
+//        let modelView = ModelDetailDrinkView()
+//        detailDrink.configure(with: modelView)
+//    }
 }

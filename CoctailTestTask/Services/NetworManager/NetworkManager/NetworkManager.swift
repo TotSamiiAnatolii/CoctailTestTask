@@ -15,7 +15,7 @@ protocol NetworkServiceProtocol: AnyObject {
     
 //    func searchForIngredientID(id: String, completion: @escaping (Result<ModelDetailDrink, Error>) -> Void)
     
-    func getDetailDrink(id: String, completion: @escaping (Result<ModelDetailDrink, Error>) -> Void)
+    func getDetailDrink(id: String, completion: @escaping (Result<DetailDrinkResponse, Error>) -> Void)
 }
 
 final class NetworkManager: NetworkServiceProtocol {
@@ -42,6 +42,17 @@ final class NetworkManager: NetworkServiceProtocol {
                 switch result {
                 case .success(let success):
                     listMenu[category.name] = success
+                    
+//                    self.getDetailDrink(id: "14588") { result in
+//                        switch result {
+//                        case .success(let success):
+//                            listMenu[category.name]?.drinks.forEach({ fr in
+//                                
+//                            })
+//                        case .failure(let failure):
+//                            print(failure)
+//                        }
+//                    }
                     self.groupMenuList.leave()
                 case .failure(let failure):
                     completion(.failure(failure))
@@ -53,7 +64,7 @@ final class NetworkManager: NetworkServiceProtocol {
         }
     }
     
-    func getDetailDrink(id: String, completion: @escaping (Result<ModelDetailDrink, Error>) -> Void) {
+    func getDetailDrink(id: String, completion: @escaping (Result<DetailDrinkResponse, Error>) -> Void) {
         guard let url = API.fetchDetailDrink(id: id) else {
             return
         }

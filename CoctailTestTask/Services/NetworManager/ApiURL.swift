@@ -33,9 +33,9 @@ enum API {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "thecocktaildb.com"
-        components.path = "/api/json/v1/1/filter.php"
+        components.path = "/api/json/v1/1/lookup.php"
         components.queryItems = [
-            URLQueryItem(name: "c", value: id)]
+            URLQueryItem(name: "i", value: id)]
         return components.url
     }
 }

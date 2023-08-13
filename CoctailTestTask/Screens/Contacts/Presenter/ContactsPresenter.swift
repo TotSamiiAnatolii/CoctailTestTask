@@ -14,7 +14,7 @@ protocol ContactsPresenterProtocol: AnyObject {
 
 final class ContactsPresenter: ContactsPresenterProtocol {
     
-    let view: ContactsViewProtocol
+    weak var view: ContactsViewProtocol
     
     init(view: ContactsViewProtocol) {
         self.view = view

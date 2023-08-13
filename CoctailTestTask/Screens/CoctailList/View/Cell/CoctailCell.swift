@@ -118,11 +118,11 @@ extension CoctailCell: ConfigurableView {
     func configure(with model: ModelCoctailCell) {
         self.productImage.setImageURL(for: model.productImage, placeholder: Images.placeholder)
         self.nameProductLabel.text = model.nameProduct
-        self.productDescriptionLabel.text = model.listIngredients.map({ ingredient in
-            guard let ingredient = ingredient else { return ""}
-            return ingredient
-        }).joined(separator: " ,")
-        print(model.listIngredients)
+//        self.productDescriptionLabel.text = model.listIngredients.map({ ingredient in
+//            guard let ingredient = ingredient else { return ""}
+//            return ingredient
+//        }).joined(separator: " ,")
+//        print(model.listIngredients)
         self.priceFromView.configure(with: ModelPriceFrom())
     }
 }

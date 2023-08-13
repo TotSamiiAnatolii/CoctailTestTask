@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ContactsViewProtocol {
+protocol ContactsViewProtocol: AnyObject {
     
 }
 
