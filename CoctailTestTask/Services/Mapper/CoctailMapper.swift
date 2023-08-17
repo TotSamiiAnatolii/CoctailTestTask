@@ -34,7 +34,6 @@ final class CoctailMapper: Mapper {
         
         model.forEach { key, value in
             cocktail[key] = value.drinks.map({ Drink in
-                print(Drink.idDrink)
                 return ModelCoctailCell(productImage: Drink.strDrinkThumb + "/preview",
                                         nameProduct: Drink.strDrink)
             })

@@ -48,7 +48,6 @@ final class CoctailCell: UICollectionViewCell {
         super.init(frame: frame)
         setViewHierarhies()
         setupConstraints()
-//        contentView.backgroundColor = Colors.mainBackGroundColor
     }
     
     required init?(coder: NSCoder) {
@@ -91,25 +90,6 @@ final class CoctailCell: UICollectionViewCell {
             priceFromView.heightAnchor.constraint(equalToConstant: 32)
         ])
     }
-    
-    func animate() {
-        productImage.transform = .init(scaleX: 0.9, y: 0.9)
-        stackView.transform = .init(scaleX: 0.9, y: 0.9)
-        priceFromView.transform = .init(scaleX: 0.9, y: 0.9)
-//        var constraint: NSLayoutConstraint?
-//        constraint = productImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
-//        constraint?.isActive = true
-//        constraint?.constant += 20
-//        UIView.animate(
-//            withDuration: 0.8,
-//            delay: 0,
-//            usingSpringWithDamping: 0.5,
-//            initialSpringVelocity: 0.5,
-//            options: .curveEaseIn,
-//            animations: {
-//            self.layoutIfNeeded()
-//        }, completion: nil)
-    }
 }
 extension CoctailCell: ConfigurableView {
     
@@ -118,11 +98,6 @@ extension CoctailCell: ConfigurableView {
     func configure(with model: ModelCoctailCell) {
         self.productImage.setImageURL(for: model.productImage, placeholder: Images.placeholder)
         self.nameProductLabel.text = model.nameProduct
-//        self.productDescriptionLabel.text = model.listIngredients.map({ ingredient in
-//            guard let ingredient = ingredient else { return ""}
-//            return ingredient
-//        }).joined(separator: " ,")
-//        print(model.listIngredients)
         self.priceFromView.configure(with: ModelPriceFrom())
     }
 }

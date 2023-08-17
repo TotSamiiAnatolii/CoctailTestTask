@@ -19,7 +19,6 @@ extension UIImageView {
             
             DispatchQueue.global(qos: .userInitiated).async {
                 let image = data
-                 print(data)
                 DispatchQueue.main.async {
                     guard self.tag == urlHash else {
                         return

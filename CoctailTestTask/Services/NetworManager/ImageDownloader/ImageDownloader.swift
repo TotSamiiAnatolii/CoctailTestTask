@@ -54,11 +54,9 @@ final class ImageDownloader: ImageDownLoaderProtocol {
         }
         
         if let data = imageCache.object(forKey: imageUrl as NSURL) {
-            print("Loadet")
             completion(data as UIImage)
             return
         }
-        print("NotLoadet")
         self.getData(for: imageUrl) { result in
             switch result {
             case .success(let success):
