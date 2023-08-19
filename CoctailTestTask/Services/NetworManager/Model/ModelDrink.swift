@@ -8,7 +8,7 @@
 import UIKit
 
 struct DTO {
-    public let drinks: [Drink]
+    public var drinks: [Drink]
     public var detail: [[String: String?]]
 }
 

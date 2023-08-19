@@ -54,6 +54,12 @@ final class CoctailCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override var isHighlighted: Bool {
+        didSet {
+            isHighlighted ? touchDown() : touchUp()
+        }
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         productImage.image = nil
@@ -89,6 +95,26 @@ final class CoctailCell: UICollectionViewCell {
             priceFromView.widthAnchor.constraint(equalToConstant: 87),
             priceFromView.heightAnchor.constraint(equalToConstant: 32)
         ])
+    }
+    
+    private func touchDown() {
+        let scaleX = 0.98
+        let scaleY = 0.98
+    
+        transform = CGAffineTransform(scaleX: scaleX, y: scaleY)
+    }
+    
+    private func  touchUp() {
+        let scaleX = 1.0
+        let scaleY = 1.0
+        
+        UIView.animateKeyframes(withDuration: 0.4,
+                                delay: 0,
+                                options: [.beginFromCurrentState,
+                                          .allowUserInteraction],
+                                animations: {
+            self.transform = CGAffineTransform(scaleX: scaleX, y: scaleY)
+        })
     }
 }
 extension CoctailCell: ConfigurableView {

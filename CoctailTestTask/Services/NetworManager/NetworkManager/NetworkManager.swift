@@ -33,26 +33,30 @@ final class NetworkManager: NetworkServiceProtocol {
     
     func getMenuList(categories: [ModelCategory], completion: @escaping (Result<[String: CocktailResponse], Error>) -> Void) {
         
-        var listMenu: [String: CocktailResponse] = [:]
+        var listMenu: [String: DTO] = [:]
         
+        var ingredient: [[String: String?]] = [[:]]
+
         categories.forEach { category in
             
             self.groupMenuList.enter()
             fetchList(for: category.name) { result in
                 switch result {
                 case .success(let success):
-                    listMenu[category.name] = success
-                    
-//                    self.getDetailDrink(id: "14588") { result in
-//                        switch result {
-//                        case .success(let success):
-//                            listMenu[category.name]?.drinks.forEach({ fr in
-//                                
-//                            })
-//                        case .failure(let failure):
-//                            print(failure)
-//                        }
-//                    }
+                    listMenu[category.name]?.drinks = success.drinks
+
+                    success.drinks.forEach { drink in
+                        self.getDetailDrink(id: drink.idDrink) { result in
+                            switch result {
+                            case .success(let success):
+                                listMenu[category.name]?.detail = success.drinks
+                                print(success.drinks)
+                            case .failure(let failure):
+                                print(failure)
+                            }
+                        }
+                    }
+                  
                     self.groupMenuList.leave()
                 case .failure(let failure):
                     completion(.failure(failure))
@@ -60,6 +64,7 @@ final class NetworkManager: NetworkServiceProtocol {
             }
         }
         groupMenuList.notify(queue: .main) {
+            var modelDTO = DTO(drinks: listMenu, detail: ingredient)
             completion(.success(listMenu))
         }
     }
