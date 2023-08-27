@@ -9,7 +9,7 @@ import UIKit
 
 protocol CoctailListPresenterProtocol: AnyObject {
     
-    init(networkService: NetworkServiceProtocol, router: RouterProtocol)
+    init(coctailAPIManager: CoctailAPIManagerProtocol, router: RouterProtocol)
     
     func viewDidLoad()
     
@@ -28,7 +28,7 @@ final class MenuPresenter: CoctailListPresenterProtocol {
    
     weak var view: CoctailListViewProtocol?
     
-    private let networkService: NetworkServiceProtocol
+    private let coctailAPIManager: CoctailAPIManagerProtocol
     
     private let router: RouterProtocol
     
@@ -40,14 +40,14 @@ final class MenuPresenter: CoctailListPresenterProtocol {
         }
     }
     
-    init(networkService: NetworkServiceProtocol, router: RouterProtocol) {
-        self.networkService = networkService
+    init(coctailAPIManager: CoctailAPIManagerProtocol, router: RouterProtocol) {
+        self.coctailAPIManager = coctailAPIManager
         self.router = router
     }
 
     func getCategories(completion: @escaping ([ModelCategory])->Void) {
         
-        networkService.getCategory { category in
+        coctailAPIManager.getCategory { category in
             switch category {
             case .success(let success):
                 self.stateView = .loadCategory(self.mapper.map(models: success.drinks))
@@ -59,28 +59,28 @@ final class MenuPresenter: CoctailListPresenterProtocol {
     }
 
     func getMenuList(categories: [ModelCategory]) {
-    
-        networkService.getMenuList(categories: categories) {result in
+        
+        coctailAPIManager.getMenuList(categories: categories) {result in
             switch result {
             case .success(let success):
-
-                let photo = (success[categories[0].name]?.drinks
-                        .compactMap{URL(string: $0.strDrinkThumb)})!
                 
-                photo.forEach { url in
+                let photo = (success[categories[0].name]?.drinks
+                    .compactMap{URL(string: $0.strDrinkThumb)})
+                
+                photo?.forEach { url in
+                   
                     ImageDownloader.shared.warmCache(with: url)
                 }
                 
                 DispatchQueue.main.async {
                     self.stateView = .papulated(self.mapper.mapListMenu(model: success))
                 }
-
+                
             case .failure(let failure):
                 self.stateView = .error(failure)
             }
         }
     }
-
     func viewDidLoad() {
         stateView = .loading
         getCategories { categories in

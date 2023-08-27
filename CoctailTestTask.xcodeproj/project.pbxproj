@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		187D84B42A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D84B32A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift */; };
+		187FB4A12A97C89C00C9AAB1 /* CoctailAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187FB4A02A97C89C00C9AAB1 /* CoctailAPIManager.swift */; };
 		1880DAE22A7FC5680013F195 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880DAE12A7FC5680013F195 /* ImageDownloader.swift */; };
 		1880DAE52A7FE2A00013F195 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880DAE42A7FE2A00013F195 /* UIImageView.swift */; };
 		1880DAE82A8031C60013F195 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880DAE72A8031C60013F195 /* UIImage+.swift */; };
@@ -91,6 +92,7 @@
 
 /* Begin PBXFileReference section */
 		187D84B32A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+.swift"; sourceTree = "<group>"; };
+		187FB4A02A97C89C00C9AAB1 /* CoctailAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoctailAPIManager.swift; sourceTree = "<group>"; };
 		1880DAE12A7FC5680013F195 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		1880DAE42A7FE2A00013F195 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		1880DAE72A8031C60013F195 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
@@ -188,6 +190,14 @@
 				187D84B32A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift */,
 			);
 			path = UIActivityIndicatorView;
+			sourceTree = "<group>";
+		};
+		187FB49F2A97C82000C9AAB1 /* CoctailAPIManager */ = {
+			isa = PBXGroup;
+			children = (
+				187FB4A02A97C89C00C9AAB1 /* CoctailAPIManager.swift */,
+			);
+			path = CoctailAPIManager;
 			sourceTree = "<group>";
 		};
 		1880DADE2A7FC3EE0013F195 /* NetworkManager */ = {
@@ -685,6 +695,7 @@
 		188D0BC22A76508F00D714B0 /* NetworManager */ = {
 			isa = PBXGroup;
 			children = (
+				187FB49F2A97C82000C9AAB1 /* CoctailAPIManager */,
 				1880DAE02A7FC4330013F195 /* ImageDownloader */,
 				1880DADE2A7FC3EE0013F195 /* NetworkManager */,
 				1880DADF2A7FC4080013F195 /* Model */,
@@ -840,6 +851,7 @@
 				188BB6112A4731BC004810DF /* ModelDrink.swift in Sources */,
 				188BB60C2A473156004810DF /* ConfigurableView.swift in Sources */,
 				188BB6272A47356D004810DF /* ModelCategory.swift in Sources */,
+				187FB4A12A97C89C00C9AAB1 /* CoctailAPIManager.swift in Sources */,
 				188BB6312A473739004810DF /* ModelCoctailCell.swift in Sources */,
 				188BB6162A4732D8004810DF /* CoctailListView.swift in Sources */,
 				188BB5F62A4709E4004810DF /* UIStackView+MyStyle.swift in Sources */,

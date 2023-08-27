@@ -17,21 +17,21 @@ protocol AssemblyBuilderProtocol {
 
 final class ModuleBuilder: AssemblyBuilderProtocol {
     
-    let networkService: NetworkManager
+    let coctailAPIManager: CoctailAPIManagerProtocol
     
-    init(networkService: NetworkManager) {
-        self.networkService = networkService
+    init(coctailAPIManager: CoctailAPIManagerProtocol) {
+        self.coctailAPIManager = coctailAPIManager
     }
     
     func createDetailDrink(id: String, router: RouterProtocol) -> UIViewController {
-        let presenter = DetailDrinkPresenter(id: id, netwokService: networkService, router: router)
+        let presenter = DetailDrinkPresenter(id: id, coctailAPIManager: coctailAPIManager, router: router)
         let view = DetailDrinkController(presenter: presenter)
         presenter.view = view
         return view
     }
     
     func createMenu(router: RouterProtocol) -> UIViewController {
-        let presenter = MenuPresenter(networkService: networkService, router: router)
+        let presenter = MenuPresenter(coctailAPIManager: coctailAPIManager, router: router)
         let view = CoctailListController(presenter: presenter)
         presenter.view = view
         return view

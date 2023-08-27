@@ -19,7 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = TabBarController()
         let navigationController = UINavigationController()
         let networkService = NetworkManager()
-        let assemblyBuilder = ModuleBuilder(networkService: networkService)
+        let coctailAPIManager = CoctailAPIManager(networkManager: networkService)
+        let assemblyBuilder = ModuleBuilder(coctailAPIManager: coctailAPIManager)
         let router = Router(tabBarController: tabBarController, assemblyBuilder: assemblyBuilder, navigationController: navigationController)
         router.initialViewControllers()
         window?.rootViewController = tabBarController

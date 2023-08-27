@@ -7,9 +7,20 @@
 
 import UIKit
 
+struct ResultDTO {
+    
+    let model: [String: DTO]
+}
+
 struct DTO {
-    public var drinks: [Drink]
-    public var detail: [[String: String?]]
+    let strDrink: String
+    var strDrinkThumb: String {
+        didSet {
+            strDrinkThumb = strDrinkThumb + "/preview"
+        }
+    }
+    let idDrink: String
+    let detail: Cocktails
 }
 
 struct CocktailResponse: Codable {

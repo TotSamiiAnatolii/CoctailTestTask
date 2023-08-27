@@ -9,81 +9,12 @@ import UIKit
 
 protocol NetworkServiceProtocol: AnyObject {
     
-    func getCategory(completion: @escaping(Result<Categories, Error>) -> Void)
-    
-    func getMenuList(categories: [ModelCategory], completion: @escaping(Result<[String: CocktailResponse], Error>) -> Void)
-    
-//    func searchForIngredientID(id: String, completion: @escaping (Result<ModelDetailDrink, Error>) -> Void)
-    
-    func getDetailDrink(id: String, completion: @escaping (Result<DetailDrinkResponse, Error>) -> Void)
+    func fetchModels<T: Decodable>(from url: URL, in completion: @escaping ((Result<T, Error>) -> Void))
 }
 
 final class NetworkManager: NetworkServiceProtocol {
     
-    private let groupMenuList = DispatchGroup()
-    
-    private let groupImage = DispatchGroup()
-    
-    func getCategory(completion: @escaping(Result<Categories, Error>) -> Void) {
-        guard let url = API.categories else {
-            return
-        }
-        fetchModels(from: url, in: completion)
-    }
-    
-    func getMenuList(categories: [ModelCategory], completion: @escaping (Result<[String: CocktailResponse], Error>) -> Void) {
-        
-        var listMenu: [String: DTO] = [:]
-        
-        var ingredient: [[String: String?]] = [[:]]
-
-        categories.forEach { category in
-            
-            self.groupMenuList.enter()
-            fetchList(for: category.name) { result in
-                switch result {
-                case .success(let success):
-                    listMenu[category.name]?.drinks = success.drinks
-
-                    success.drinks.forEach { drink in
-                        self.getDetailDrink(id: drink.idDrink) { result in
-                            switch result {
-                            case .success(let success):
-                                listMenu[category.name]?.detail = success.drinks
-                                print(success.drinks)
-                            case .failure(let failure):
-                                print(failure)
-                            }
-                        }
-                    }
-                  
-                    self.groupMenuList.leave()
-                case .failure(let failure):
-                    completion(.failure(failure))
-                }
-            }
-        }
-        groupMenuList.notify(queue: .main) {
-            var modelDTO = DTO(drinks: listMenu, detail: ingredient)
-            completion(.success(listMenu))
-        }
-    }
-    
-    func getDetailDrink(id: String, completion: @escaping (Result<DetailDrinkResponse, Error>) -> Void) {
-        guard let url = API.fetchDetailDrink(id: id) else {
-            return
-        }
-        fetchModels(from: url, in: completion)
-    }
-
-    func fetchList(for category: String, completion: @escaping (Result<CocktailResponse, Error>) -> Void) {
-        guard let url = API.fetchCategory(category: category) else {
-            return
-        }
-        fetchModels(from: url, in: completion)
-    }
-    
-    private func fetchModels<T: Decodable>(from url: URL, in completion: @escaping ((Result<T, Error>) -> Void)) {
+    public func fetchModels<T: Decodable>(from url: URL, in completion: @escaping ((Result<T, Error>) -> Void)) {
         URLSession.shared.dataTask(with: url) { data, _, error in
             
             if let error = error {
@@ -97,12 +28,16 @@ final class NetworkManager: NetworkServiceProtocol {
             }
             
             do {
+              
                 let decoder = JSONDecoder()
                 let model = try decoder.decode(T.self, from: data)
                     completion(.success(model))
             }
             catch {
+                print(url)
+                print(T.self)
                 print("decode error")
+                completion(.failure(error))
             }
         }.resume()
     }

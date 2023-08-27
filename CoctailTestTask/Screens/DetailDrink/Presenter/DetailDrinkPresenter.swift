@@ -15,20 +15,20 @@ protocol DetailDrinkPresenterProtocol: AnyObject {
 
 final class DetailDrinkPresenter: DetailDrinkPresenterProtocol {
     
-    private let networkService: NetworkServiceProtocol
+    private let coctailAPIManager: CoctailAPIManagerProtocol
     
     private let router: RouterProtocol
     
     weak var view: DetailDrinkViewProtocol?
     
-    init(id: String, netwokService: NetworkServiceProtocol, router: RouterProtocol) {
-        self.networkService = netwokService
+    init(id: String, coctailAPIManager: CoctailAPIManagerProtocol, router: RouterProtocol) {
+        self.coctailAPIManager = coctailAPIManager
         self.router = router
         getDetailDrink(id: id)
     }
         
     func getDetailDrink(id: String) {
-        networkService.getDetailDrink(id: id) {result in
+        coctailAPIManager.getDetailDrink(id: id) {result in
             switch result {
             case .success(let success):
                 print(success)
