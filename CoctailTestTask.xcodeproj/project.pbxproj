@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		187BB03A2A9D189D0001B02C /* UIImageView+MyStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187BB0392A9D189D0001B02C /* UIImageView+MyStyle.swift */; };
 		187D84B42A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D84B32A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift */; };
 		187FB4A12A97C89C00C9AAB1 /* CoctailAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187FB4A02A97C89C00C9AAB1 /* CoctailAPIManager.swift */; };
 		1880DAE22A7FC5680013F195 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880DAE12A7FC5680013F195 /* ImageDownloader.swift */; };
@@ -91,6 +92,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		187BB0392A9D189D0001B02C /* UIImageView+MyStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+MyStyle.swift"; sourceTree = "<group>"; };
 		187D84B32A7AD2DF0012AA64 /* UIActivityIndicatorView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+.swift"; sourceTree = "<group>"; };
 		187FB4A02A97C89C00C9AAB1 /* CoctailAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoctailAPIManager.swift; sourceTree = "<group>"; };
 		1880DAE12A7FC5680013F195 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				1880DAE42A7FE2A00013F195 /* UIImageView.swift */,
+				187BB0392A9D189D0001B02C /* UIImageView+MyStyle.swift */,
 			);
 			path = UIImageView;
 			sourceTree = "<group>";
@@ -856,6 +859,7 @@
 				188BB6162A4732D8004810DF /* CoctailListView.swift in Sources */,
 				188BB5F62A4709E4004810DF /* UIStackView+MyStyle.swift in Sources */,
 				188BB64A2A473AA7004810DF /* ContatsView.swift in Sources */,
+				187BB03A2A9D189D0001B02C /* UIImageView+MyStyle.swift in Sources */,
 				188BB6092A473017004810DF /* Layouts.swift in Sources */,
 				188BB6402A4739DD004810DF /* ModelDetailDrinkView.swift in Sources */,
 				188BB61B2A47341F004810DF /* PriceFrom.swift in Sources */,

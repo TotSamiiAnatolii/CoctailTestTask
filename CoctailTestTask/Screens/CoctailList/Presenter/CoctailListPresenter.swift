@@ -68,14 +68,11 @@ final class MenuPresenter: CoctailListPresenterProtocol {
                     .compactMap{URL(string: $0.strDrinkThumb)})
                 
                 photo?.forEach { url in
-                   
                     ImageDownloader.shared.warmCache(with: url)
                 }
-                
                 DispatchQueue.main.async {
                     self.stateView = .papulated(self.mapper.mapListMenu(model: success))
                 }
-                
             case .failure(let failure):
                 self.stateView = .error(failure)
             }

@@ -50,9 +50,11 @@ final class CoctailAPIManager: CoctailAPIManagerProtocol{
                 switch result {
                 case .success(let success):
                     listMenu[category.name] = success
+                    
                 case .failure(let failure):
                     print(failure)
                 }
+                
                 self.groupMenuList.leave()
             }
         }
