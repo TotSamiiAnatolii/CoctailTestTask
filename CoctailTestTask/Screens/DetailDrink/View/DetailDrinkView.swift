@@ -28,6 +28,17 @@ final class DetailDrinkView: UIView {
         .setMyStyle(numberOfLines: 1,
                     textAlignment: .left,
                     font: UIFont.systemFont(ofSize: 15))
+    
+    private let ingredientMeasureStack = UIStackView()
+        .myStyleStack(spacing: 3,
+                      alignment: .center,
+                      axis: .horizontal,
+                      distribution: .fill,
+                      userInteraction: false)
+        .setLayoutMargins(top: 5,
+                          left: 5,
+                          bottom: 5,
+                          right: 5)
         
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,6 +54,9 @@ final class DetailDrinkView: UIView {
     private func setViewHierarhies() {
         addSubview(productImage)
         addSubview(nameCocktailLabel)
+        addSubview(ingredientMeasureStack)
+        ingredientMeasureStack.addArrangedSubview(ingredientLabel)
+        ingredientMeasureStack.addArrangedSubview(measureLabel)
     }
     
     private func setupConstraints() {
@@ -58,6 +72,11 @@ final class DetailDrinkView: UIView {
             nameCocktailLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             nameCocktailLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
+        
+        NSLayoutConstraint.activate([
+            ingredientMeasureStack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            ingredientMeasureStack.topAnchor.constraint(equalTo: nameCocktailLabel.bottomAnchor, constant: 10)
+        ])
     }
 }
 extension DetailDrinkView: ConfigurableView {
@@ -66,5 +85,7 @@ extension DetailDrinkView: ConfigurableView {
     
     func configure(with model: ModelDetailDrinkView) {
         nameCocktailLabel.text = "410 Gone"
+        ingredientLabel.text = "Gin tonic"
+        measureLabel.text = "1/5"
     }
 }
