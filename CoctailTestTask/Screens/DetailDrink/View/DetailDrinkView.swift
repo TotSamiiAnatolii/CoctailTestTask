@@ -19,26 +19,13 @@ final class DetailDrinkView: UIView {
                     font: UIFont.systemFont(ofSize: 22))
         .setTextColor(color: .black)
     
-    private let ingredientLabel: UILabel = UILabel()
-        .setMyStyle(numberOfLines: 1,
-                    textAlignment: .left,
-                    font: UIFont.systemFont(ofSize: 15))
-    
-    private let measureLabel: UILabel = UILabel()
-        .setMyStyle(numberOfLines: 1,
-                    textAlignment: .left,
-                    font: UIFont.systemFont(ofSize: 15))
-    
     private let ingredientMeasureStack = UIStackView()
         .myStyleStack(spacing: 3,
-                      alignment: .center,
-                      axis: .horizontal,
+                      alignment: .fill,
+                      axis: .vertical,
                       distribution: .fill,
                       userInteraction: false)
-        .setLayoutMargins(top: 5,
-                          left: 5,
-                          bottom: 5,
-                          right: 5)
+        
         
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -55,8 +42,6 @@ final class DetailDrinkView: UIView {
         addSubview(productImage)
         addSubview(nameCocktailLabel)
         addSubview(ingredientMeasureStack)
-        ingredientMeasureStack.addArrangedSubview(ingredientLabel)
-        ingredientMeasureStack.addArrangedSubview(measureLabel)
     }
     
     private func setupConstraints() {
@@ -78,14 +63,26 @@ final class DetailDrinkView: UIView {
             ingredientMeasureStack.topAnchor.constraint(equalTo: nameCocktailLabel.bottomAnchor, constant: 10)
         ])
     }
+    
+    private func prepareIngredientStack(ingredients: [String]) {
+       
+        ingredients.forEach { ingredient in
+            let ingredientLabel: UILabel = UILabel()
+                .setMyStyle(numberOfLines: 1,
+                            textAlignment: .left,
+                            font: UIFont.systemFont(ofSize: 15))
+            ingredientLabel.text = ingredient
+            ingredientMeasureStack.addArrangedSubview(ingredientLabel)
+        }
+    }
 }
 extension DetailDrinkView: ConfigurableView {
     
     typealias Model = ModelDetailDrinkView
     
     func configure(with model: ModelDetailDrinkView) {
+        let testIng = ["Gin tonic - 1/4", "Cola - 0.5", "Vodka - 0,1"]
         nameCocktailLabel.text = "410 Gone"
-        ingredientLabel.text = "Gin tonic"
-        measureLabel.text = "1/5"
+       prepareIngredientStack(ingredients: testIng)
     }
 }
