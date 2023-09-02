@@ -14,4 +14,6 @@ struct ModelDetailDrinkView {
     let ingredients: [String]
     
     let name: String
+    
+    let instructions: String
 }

@@ -48,8 +48,9 @@ final class DetailMapper: Mapper {
     func mapCategories(model: Cocktails) -> ModelDetailDrinkView {
         ModelDetailDrinkView(
             productPhoto: model.drinks.first!.strDrinkThumb,
-                ingredients: model.drinks.first!.ingredients,
-                name: model.drinks.first!.strDrink)
+            ingredients: model.drinks.first!.ingredients,
+            name: model.drinks.first!.strDrink,
+            instructions: model.drinks.first!.strInstructions!)
         
     }
 }

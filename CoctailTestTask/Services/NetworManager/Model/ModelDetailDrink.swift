@@ -72,45 +72,44 @@ struct Cocktail: Decodable, Identifiable, Hashable {
             retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure3, let ingredient = strIngredient3 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure4, let ingredient = strIngredient4 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure5, let ingredient = strIngredient5 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure6, let ingredient = strIngredient6 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure7, let ingredient = strIngredient7 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure8, let ingredient = strIngredient8 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure9, let ingredient = strIngredient9 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure10, let ingredient = strIngredient10 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure11, let ingredient = strIngredient11 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure12, let ingredient = strIngredient12 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure13, let ingredient = strIngredient13 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure14, let ingredient = strIngredient14 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure15, let ingredient = strIngredient15 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
-
         return retString
     }
 }
