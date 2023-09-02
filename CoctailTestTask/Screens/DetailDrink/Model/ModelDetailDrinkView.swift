@@ -9,4 +9,9 @@ import Foundation
 
 struct ModelDetailDrinkView {
     
+    let productPhoto: String
+    
+    let ingredients: [String]
+    
+    let name: String
 }

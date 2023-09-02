@@ -11,7 +11,6 @@ final class DetailDrinkView: UIView {
     
     private let productImage: UIImageView = UIImageView()
         .setMyStyle()
-        .setImage(image: Images.placeholder)
     
     private let nameCocktailLabel: UILabel = UILabel()
         .setMyStyle(numberOfLines: 2,
@@ -81,8 +80,8 @@ extension DetailDrinkView: ConfigurableView {
     typealias Model = ModelDetailDrinkView
     
     func configure(with model: ModelDetailDrinkView) {
-        let testIng = ["Gin tonic - 1/4", "Cola - 0.5", "Vodka - 0,1"]
-        nameCocktailLabel.text = "410 Gone"
-       prepareIngredientStack(ingredients: testIng)
+        productImage.setImageURL(for: model.productPhoto, placeholder: Images.placeholder)
+        nameCocktailLabel.text = model.name
+        prepareIngredientStack(ingredients: model.ingredients)
     }
 }

@@ -28,10 +28,14 @@ final class DetailDrinkPresenter: DetailDrinkPresenterProtocol {
     }
         
     func getDetailDrink(id: String) {
+        let mapper = DetailMapper()
         coctailAPIManager.getDetailDrink(id: id) {result in
             switch result {
             case .success(let success):
-                print(success)
+                DispatchQueue.main.async {
+                    self.view?.configureView(drink: mapper.mapCategories(model: success))
+                }
+                
             case .failure(let failure):
                 print(failure)
             }

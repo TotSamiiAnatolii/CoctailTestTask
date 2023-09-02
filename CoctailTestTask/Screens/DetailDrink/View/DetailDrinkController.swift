@@ -9,7 +9,7 @@ import UIKit
 
 protocol DetailDrinkViewProtocol: AnyObject {
     
-    func configureView(drink: Cocktail)
+    func configureView(drink: ModelDetailDrinkView)
 }
 
 final class DetailDrinkController: UIViewController {
@@ -35,7 +35,6 @@ final class DetailDrinkController: UIViewController {
     init(presenter: DetailDrinkPresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
-        detailDrink.configure(with: ModelDetailDrinkView())
     }
     
     required init?(coder: NSCoder) {
@@ -44,9 +43,7 @@ final class DetailDrinkController: UIViewController {
 }
 extension DetailDrinkController: DetailDrinkViewProtocol {
     
-    func configureView(drink: Cocktail) {
-      
-        let modelView = ModelDetailDrinkView()
-        detailDrink.configure(with: modelView)
+    func configureView(drink: ModelDetailDrinkView) {
+        detailDrink.configure(with: drink)
     }
 }

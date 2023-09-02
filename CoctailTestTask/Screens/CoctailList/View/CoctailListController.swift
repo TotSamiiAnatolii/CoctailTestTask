@@ -196,7 +196,8 @@ extension CoctailListController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        presenter.showCoctail(id: "" )
+        guard let typeSection = TypeSection(rawValue: indexPath.section) else {return}
+        presenter.showCoctail(id: listMenu[categories[typeSection.currentSection(indexPath.section)].name]?[indexPath.row].id ?? "")
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

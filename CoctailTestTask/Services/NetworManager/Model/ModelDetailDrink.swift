@@ -27,7 +27,7 @@ struct Cocktail: Decodable, Identifiable, Hashable {
     let strInstructionsDE: String?
     let strInstructionsFR: String?
     let strInstructionsIT: String?
-    let strDrinkThumb: String?
+    let strDrinkThumb: String
     let strIngredient1: String?
     let strIngredient2: String?
     let strIngredient3: String?
@@ -66,10 +66,10 @@ struct Cocktail: Decodable, Identifiable, Hashable {
     var ingredients: [String] {
         var retString: [String] = [String]()
         if let measure = strMeasure1, let ingredient = strIngredient1 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure2, let ingredient = strIngredient2 {
-            retString.append("\(measure)  \(ingredient)")
+            retString.append("\(measure) \(ingredient)")
         }
         if let measure = strMeasure3, let ingredient = strIngredient3 {
             retString.append("\(measure)  \(ingredient)")
