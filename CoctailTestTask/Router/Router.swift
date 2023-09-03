@@ -61,7 +61,7 @@ final class Router: RouterProtocol {
     
     func showDetail(id: String) {
         let detailVC = assemblyBuilder.createDetailDrink(id: id, router: self)
-        navigationController.present(detailVC, animated: true)
+        navigationController.pushViewController(detailVC, animated: true)
     }
     
     func popToRoot() {

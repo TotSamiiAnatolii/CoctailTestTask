@@ -12,8 +12,16 @@ final class DetailDrinkView: UIView {
     private let scrollView: UIScrollView = {
         let scView = UIScrollView()
         scView.translatesAutoresizingMaskIntoConstraints = false
+        scView.showsVerticalScrollIndicator = true
         return scView
     }()
+    
+    private let mainStack = UIStackView()
+        .myStyleStack(spacing: 3,
+                      alignment: .fill,
+                      axis: .vertical,
+                      distribution: .equalSpacing,
+                      userInteraction: false)
     
     private let productImage: UIImageView = UIImageView()
         .setMyStyle()
@@ -71,11 +79,12 @@ final class DetailDrinkView: UIView {
     
     private func setViewHierarhies() {
         addSubview(scrollView)
-        scrollView.addSubview(productImage)
-        scrollView.addSubview(nameCocktailLabel)
-        scrollView.addSubview(ingredientsLabel)
-        scrollView.addSubview(ingredientMeasureStack)
-        scrollView.addSubview(instructionsStack)
+        scrollView.addSubview(mainStack)
+        mainStack.addArrangedSubview(productImage)
+        mainStack.addArrangedSubview(nameCocktailLabel)
+        mainStack.addArrangedSubview(ingredientsLabel)
+        mainStack.addArrangedSubview(ingredientMeasureStack)
+        mainStack.addArrangedSubview(instructionsStack)
         instructionsStack.addArrangedSubview(instructionsTitleLabel)
         instructionsStack.addArrangedSubview(instructionsLabel)
     }
@@ -89,24 +98,16 @@ final class DetailDrinkView: UIView {
         ])
         
         NSLayoutConstraint.activate([
-            productImage.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            productImage.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            productImage.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            mainStack.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            mainStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            mainStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            mainStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
             productImage.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.5)
         ])
-        
-        NSLayoutConstraint.activate([
-            nameCocktailLabel.topAnchor.constraint(equalTo: productImage.bottomAnchor, constant: 15),
-            nameCocktailLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 25),
-            nameCocktailLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            ingredientsLabel.topAnchor.constraint(equalTo: nameCocktailLabel.bottomAnchor, constant: 15),
-            ingredientsLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 25),
-            ingredientsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        ])
-        
+
         NSLayoutConstraint.activate([
             ingredientMeasureStack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 25),
             ingredientMeasureStack.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 10)
