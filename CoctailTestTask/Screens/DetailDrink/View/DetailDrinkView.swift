@@ -9,9 +9,16 @@ import UIKit
 
 final class DetailDrinkView: UIView {
     
+    private let scrollView: UIScrollView = {
+        let scView = UIScrollView()
+        scView.translatesAutoresizingMaskIntoConstraints = false
+        return scView
+    }()
+    
     private let productImage: UIImageView = UIImageView()
         .setMyStyle()
         .setRoundCorners(radius: 15)
+        .roundCorners([.bottomRight, .bottomLeft], radius: 15)
     
     private let nameCocktailLabel: UILabel = UILabel()
         .setMyStyle(numberOfLines: 2,
@@ -63,16 +70,24 @@ final class DetailDrinkView: UIView {
     }
     
     private func setViewHierarhies() {
-        addSubview(productImage)
-        addSubview(nameCocktailLabel)
-        addSubview(ingredientsLabel)
-        addSubview(ingredientMeasureStack)
-        addSubview(instructionsStack)
+        addSubview(scrollView)
+        scrollView.addSubview(productImage)
+        scrollView.addSubview(nameCocktailLabel)
+        scrollView.addSubview(ingredientsLabel)
+        scrollView.addSubview(ingredientMeasureStack)
+        scrollView.addSubview(instructionsStack)
         instructionsStack.addArrangedSubview(instructionsTitleLabel)
         instructionsStack.addArrangedSubview(instructionsLabel)
     }
     
     private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
+        
         NSLayoutConstraint.activate([
             productImage.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             productImage.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),

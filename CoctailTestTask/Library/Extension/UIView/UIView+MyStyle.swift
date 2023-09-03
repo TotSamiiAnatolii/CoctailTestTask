@@ -21,6 +21,13 @@ extension UIView {
         return self
     }
     
+    public func roundCorners(_ corners: UIRectCorner, radius: CGFloat) -> Self{
+        clipsToBounds = true
+        layer.cornerRadius = radius
+        layer.maskedCorners = CACornerMask(rawValue: corners.rawValue)
+        return self
+    }
+    
     public func setShadows(color: CGColor, width: CGFloat, height: CGFloat, radius: CGFloat, opacity: Float ) -> Self {
         self.layer.masksToBounds = false
         self.layer.shadowColor = color
