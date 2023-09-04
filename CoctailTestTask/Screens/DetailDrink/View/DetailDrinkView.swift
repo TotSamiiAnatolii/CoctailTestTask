@@ -52,6 +52,14 @@ final class DetailDrinkView: UIView {
                     font: UIFont.systemFont(ofSize: 17, weight: .semibold))
         .setTextColor(color: .black)
     
+    private let descriptionStack = UIStackView()
+        .myStyleStack(spacing: 10,
+                      alignment: .fill,
+                      axis: .vertical,
+                      distribution: .fill,
+                      userInteraction: false)
+        .setLayoutMargins(top: 15, left: 20, bottom: 10, right: 20)
+    
     private let ingredientMeasureStack = UIStackView()
         .myStyleStack(spacing: 3,
                       alignment: .fill,
@@ -81,11 +89,18 @@ final class DetailDrinkView: UIView {
         addSubview(scrollView)
         scrollView.addSubview(mainStack)
         mainStack.addArrangedSubview(productImage)
-        mainStack.addArrangedSubview(nameCocktailLabel)
-        mainStack.addArrangedSubview(ingredientsLabel)
-        mainStack.addArrangedSubview(ingredientMeasureStack)
-        mainStack.addArrangedSubview(instructionsStack)
-        instructionsStack.addArrangedSubview(instructionsTitleLabel)
+//        mainStack.addArrangedSubview(nameCocktailLabel)
+//        mainStack.addArrangedSubview(ingredientsLabel)
+//        mainStack.addArrangedSubview(ingredientMeasureStack)
+//        mainStack.addArrangedSubview(instructionsStack)
+        
+        descriptionStack.addArrangedSubview(nameCocktailLabel)
+        descriptionStack.addArrangedSubview(ingredientsLabel)
+        descriptionStack.addArrangedSubview(ingredientMeasureStack)
+        descriptionStack.addArrangedSubview(instructionsTitleLabel)
+        descriptionStack.addArrangedSubview(instructionsStack)
+        mainStack.addArrangedSubview(descriptionStack)
+//        instructionsStack.addArrangedSubview(instructionsTitleLabel)
         instructionsStack.addArrangedSubview(instructionsLabel)
     }
     
@@ -101,22 +116,12 @@ final class DetailDrinkView: UIView {
             mainStack.topAnchor.constraint(equalTo: scrollView.topAnchor),
             mainStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             mainStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            mainStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+            mainStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            mainStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
         
         NSLayoutConstraint.activate([
             productImage.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.5)
-        ])
-
-        NSLayoutConstraint.activate([
-            ingredientMeasureStack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 25),
-            ingredientMeasureStack.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 10)
-        ])
-        
-        NSLayoutConstraint.activate([
-            instructionsStack.topAnchor.constraint(equalTo: ingredientMeasureStack.bottomAnchor, constant: 15),
-            instructionsStack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 25),
-            instructionsStack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20)
         ])
     }
     

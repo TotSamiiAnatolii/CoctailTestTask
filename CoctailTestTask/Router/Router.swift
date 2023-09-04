@@ -28,7 +28,7 @@ final class Router: RouterProtocol {
     var tabBarController: TabBarController
     
     var navigationController: UINavigationController
-    
+        
     var assemblyBuilder: AssemblyBuilderProtocol
     
     init(tabBarController: TabBarController, assemblyBuilder: AssemblyBuilderProtocol, navigationController: UINavigationController) {
@@ -38,7 +38,7 @@ final class Router: RouterProtocol {
     }
     
     func initialViewControllers() {
-       
+        navigationController.viewControllers = [tabBarController]
         let contacts = tabBarController.createViewController(
             rootViewController: (assemblyBuilder.createContacts(router: self)),
             image: Images.contacts)
@@ -46,7 +46,7 @@ final class Router: RouterProtocol {
         let menu = tabBarController.createViewController(
             rootViewController: (assemblyBuilder.createMenu(router: self)),
             image: Images.menu)
-        navigationController.viewControllers = [menu]
+            navigationController.viewControllers = [menu]
         
         let profile = tabBarController.createViewController(
             rootViewController: (assemblyBuilder.createProfile(router: self)),
