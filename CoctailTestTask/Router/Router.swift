@@ -38,7 +38,6 @@ final class Router: RouterProtocol {
     }
     
     func initialViewControllers() {
-        navigationController.viewControllers = [tabBarController]
         let contacts = tabBarController.createViewController(
             rootViewController: (assemblyBuilder.createContacts(router: self)),
             image: Images.contacts)
